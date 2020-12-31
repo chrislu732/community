@@ -1,5 +1,7 @@
 package com.example.community.dto;
 
+// user information from github
+
 public class GithubUser {
     private String login;
     private Long id;
