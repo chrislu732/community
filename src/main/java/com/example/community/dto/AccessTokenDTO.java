@@ -1,5 +1,7 @@
 package com.example.community.dto;
 
+// the header used to request access token
+
 public class AccessTokenDTO {
     private String client_id;
     private String client_secret;
