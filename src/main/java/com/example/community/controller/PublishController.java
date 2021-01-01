@@ -28,29 +28,34 @@ public class PublishController {
                             @RequestParam("tag") String tag,
                             HttpServletRequest request,
                             Model model) {
+        // keep template information
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
 
+        // if there's no title name, submission fails
         if (title == null || title == "") {
             model.addAttribute("error", "no title name");
             return "publish";
         }
+        // if there's no description, submission fails
         if (description == null || description == "") {
             model.addAttribute("error", "no description");
             return "publish";
         }
+        // if there's no tag, submission fails
         if (tag == null || tag == "") {
             model.addAttribute("error", "no tag");
             return "publish";
         }
-
+        // get user information from the session
         User user = (User) request.getSession().getAttribute("user");
+        // if there's no user, submission fails
         if (user == null) {
             model.addAttribute("error", "user doesn't log in");
             return "publish";
         }
-
+        // add question information into the database
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
@@ -59,6 +64,7 @@ public class PublishController {
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
         questionMapper.create(question);
+        // return main page
         return "redirect:/";
     }
 }

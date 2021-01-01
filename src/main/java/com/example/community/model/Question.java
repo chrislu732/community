@@ -1,5 +1,7 @@
 package com.example.community.model;
 
+// question information from database
+
 public class Question {
     private Integer id;
     private String title;
