@@ -5,6 +5,7 @@ package com.example.community.model;
 public class User {
     private Integer id;
     private String name;
+    private String bio;
     private String accountID;
     private String token;
     private Long gmtCreate;
@@ -24,6 +25,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public String getAccountID() {

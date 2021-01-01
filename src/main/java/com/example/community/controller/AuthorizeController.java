@@ -46,16 +46,23 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         // get user information
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        if (githubUser != null) {
+        if (githubUser != null && githubUser.getId() != null) {
             // put user information into the database
-            User user = new User();
-            String token = UUID.randomUUID().toString();
-            user.setName(githubUser.getLogin());
-            user.setAccountID(String.valueOf(githubUser.getId()));
-            user.setToken(token);
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
+            String token;
+            User tempUser = userMapper.findByAccountID(githubUser.getId());
+            if (tempUser == null) {
+                User user = new User();
+                token = UUID.randomUUID().toString();
+                user.setName(githubUser.getLogin());
+                user.setAccountID(String.valueOf(githubUser.getId()));
+                user.setToken(token);
+                user.setGmtCreate(System.currentTimeMillis());
+                user.setGmtModified(user.getGmtCreate());
+                user.setBio(githubUser.getBio());
+                userMapper.insert(user);
+            }else {
+                token = tempUser.getToken();
+            }
             // add a "token" cookie
             response.addCookie(new Cookie("token", token));
         }
