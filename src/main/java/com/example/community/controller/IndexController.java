@@ -26,21 +26,6 @@ public class IndexController {
                         Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "2") Integer size) {
-        // get cookies from the browser
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                // if it has a "token" cookie, add a session for user
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
         // collect question list from service
         PaginationDTO pagination = questionService.getPaginationDTO(page, size);
         model.addAttribute("pagination", pagination);
