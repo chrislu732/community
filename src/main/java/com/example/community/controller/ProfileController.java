@@ -3,7 +3,7 @@ package com.example.community.controller;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.mapper.UserMapper;
 import com.example.community.model.User;
-import com.example.community.service.QuestionService;
+import com.example.community.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ public class ProfileController {
     @Autowired
     UserMapper userMapper;
     @Autowired
-    QuestionService questionService;
+    TopicService topicService;
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action,
@@ -44,8 +44,8 @@ public class ProfileController {
             model.addAttribute("sectionName", "My Comments");
         }
 
-        // collect question list from service
-        PaginationDTO pagination = questionService.getPaginationDTO(user.getId(), page, size);
+        // collect topic list from service
+        PaginationDTO pagination = topicService.getPaginationDTO(user.getId(), page, size);
         model.addAttribute("pagination", pagination);
         return "profile";
     }

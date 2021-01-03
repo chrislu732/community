@@ -2,7 +2,7 @@ package com.example.community.controller;
 
 import com.example.community.dto.PaginationDTO;
 import com.example.community.mapper.UserMapper;
-import com.example.community.service.QuestionService;
+import com.example.community.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,17 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class IndexController {
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private QuestionService questionService;
+    private TopicService topicService;
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
                         Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "5") Integer size) {
-        // collect question list from service
-        PaginationDTO pagination = questionService.getPaginationDTO(page, size);
+        // collect topic list from service
+        PaginationDTO pagination = topicService.getPaginationDTO(page, size);
         model.addAttribute("pagination", pagination);
         return "index";
     }

@@ -1,11 +1,10 @@
-package com.example.community.dto;
+package com.example.community.model;
 
-import com.example.community.model.User;
 import lombok.Data;
 
-// connect question and user
+// topic information from database
 @Data
-public class QuestionDTO {
+public class Topic {
     private Integer id;
     private String title;
     private String description;
@@ -16,5 +15,4 @@ public class QuestionDTO {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
-    private User user;
 }

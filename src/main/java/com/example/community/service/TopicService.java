@@ -1,10 +1,10 @@
 package com.example.community.service;
 
 import com.example.community.dto.PaginationDTO;
-import com.example.community.dto.QuestionDTO;
-import com.example.community.mapper.QuestionMapper;
+import com.example.community.dto.TopicDTO;
+import com.example.community.mapper.TopicMapper;
 import com.example.community.mapper.UserMapper;
-import com.example.community.model.Question;
+import com.example.community.model.Topic;
 import com.example.community.model.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +13,18 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-// service for questions
+// service for topics
 @Service
-public class QuestionService {
+public class TopicService {
     @Autowired
-    private QuestionMapper questionMapper;
+    private TopicMapper topicMapper;
     @Autowired
     private UserMapper userMapper;
 
     // get pagination dto
     public PaginationDTO getPaginationDTO(Integer page, Integer size) {
         // count the number of pages
-        Integer totalCount = questionMapper.count();
+        Integer totalCount = topicMapper.count();
         Integer totalPage;
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -40,24 +40,24 @@ public class QuestionService {
         // set properties for pagination dto
         PaginationDTO paginationDTO = new PaginationDTO();
         paginationDTO.setPagination(page, totalPage);
-        // get question dto
+        // get topic dto
         Integer offset = size * (page - 1);
-        List<QuestionDTO> questionDTOS = new ArrayList<>();
-        List<Question> questions = questionMapper.list(offset, size);
-        for (Question question : questions) {
-            User user = userMapper.findByID(question.getAuthor());
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question, questionDTO);
-            questionDTO.setUser(user);
-            questionDTOS.add(questionDTO);
+        List<TopicDTO> topicDTOS = new ArrayList<>();
+        List<Topic> topics = topicMapper.list(offset, size);
+        for (Topic topic : topics) {
+            User user = userMapper.findByID(topic.getAuthor());
+            TopicDTO topicDTO = new TopicDTO();
+            BeanUtils.copyProperties(topic, topicDTO);
+            topicDTO.setUser(user);
+            topicDTOS.add(topicDTO);
         }
-        paginationDTO.setQuestionDTOS(questionDTOS);
+        paginationDTO.setTopicDTOS(topicDTOS);
         return paginationDTO;
     }
 
     public PaginationDTO getPaginationDTO(Integer id, Integer page, Integer size) {
         // count the number of pages
-        Integer totalCount = questionMapper.countById(id);
+        Integer totalCount = topicMapper.countById(id);
         Integer totalPage;
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -73,18 +73,18 @@ public class QuestionService {
         // set properties for pagination dto
         PaginationDTO paginationDTO = new PaginationDTO();
         paginationDTO.setPagination(page, totalPage);
-        // get question dto
+        // get topic dto
         Integer offset = size * (page - 1);
-        List<QuestionDTO> questionDTOS = new ArrayList<>();
-        List<Question> questions = questionMapper.listById(id, offset, size);
-        for (Question question : questions) {
-            User user = userMapper.findByID(question.getAuthor());
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question, questionDTO);
-            questionDTO.setUser(user);
-            questionDTOS.add(questionDTO);
+        List<TopicDTO> topicDTOS = new ArrayList<>();
+        List<Topic> topics = topicMapper.listById(id, offset, size);
+        for (Topic topic : topics) {
+            User user = userMapper.findByID(topic.getAuthor());
+            TopicDTO topicDTO = new TopicDTO();
+            BeanUtils.copyProperties(topic, topicDTO);
+            topicDTO.setUser(user);
+            topicDTOS.add(topicDTO);
         }
-        paginationDTO.setQuestionDTOS(questionDTOS);
+        paginationDTO.setTopicDTOS(topicDTOS);
         return paginationDTO;
     }
 }
