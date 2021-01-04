@@ -1,6 +1,7 @@
 package com.example.community.mapper;
 
 import com.example.community.model.Topic;
+import com.example.community.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +15,9 @@ import java.util.List;
 public interface TopicMapper {
     @Insert("insert into topic (title, description, gmt_create, gmt_modified, author, tag) values (#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{author}, #{tag})")
     void create(Topic topic);
+
+    @Select("select * from topic where id = #{id}")
+    Topic findByID(@Param("id") Integer id);
 
     @Select("select * from topic limit #{offset}, #{size}")
     List<Topic> list(@Param("offset") Integer offset, @Param("size") Integer size);

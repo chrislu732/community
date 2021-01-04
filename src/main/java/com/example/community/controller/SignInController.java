@@ -40,6 +40,7 @@ public class SignInController {
             return "sign_in";
         }
 
+        // get or create token
         String token;
         User tempUser = userMapper.findByName(userName);
         if (tempUser == null) {

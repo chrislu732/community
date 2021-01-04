@@ -13,6 +13,7 @@ public class UserService {
     @Autowired
     AvatarHelper avatarHelper;
 
+    // create github user
     public User createUser(String token, GithubUser githubUser) {
         User user = new User();
         user.setName(githubUser.getLogin());
@@ -25,6 +26,7 @@ public class UserService {
         return user;
     }
 
+    // create normal user
     public User createUser(String userName, String token) {
         User user = new User();
         user.setName(userName);

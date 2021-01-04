@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+// get random avatar local url
 @Component
 public class AvatarHelper {
 

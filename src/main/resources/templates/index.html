@@ -23,7 +23,9 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading" th:text="${topic.title}"></h4>
+                        <h4 class="media-heading">
+                            <a th:href="@{'/topic/' + ${topic.id}}" th:text="${topic.title}"></a>
+                        </h4>
                         <span th:text="${topic.description}"></span><br>
                         <span class="text-desc">
                             <span th:text="${topic.commentCount}"></span> comments · <span th:text="${topic.viewCount}"></span> views · <span th:text="${#dates.format(topic.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>

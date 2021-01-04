@@ -33,6 +33,16 @@ public class TopicService {
         topicMapper.create(topic);
     }
 
+    // get topic dto instance
+    public TopicDTO getTopicDTO(Integer id) {
+        Topic topic = topicMapper.findByID(id);
+        User user = userMapper.findByID(topic.getAuthor());
+        TopicDTO topicDTO = new TopicDTO();
+        BeanUtils.copyProperties(topic, topicDTO);
+        topicDTO.setUser(user);
+        return topicDTO;
+    }
+
     // get pagination dto
     public PaginationDTO getPaginationDTO(Integer page, Integer size) {
         // count the number of pages
