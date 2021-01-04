@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="/css/community.css?v=20210102" />
+    <link rel="stylesheet" href="/css/community.css?param=Math.random()" />
     <script src="/js/jquery-3.5.1.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
@@ -19,7 +19,7 @@
             <div class="media" th:each="topic : ${pagination.topicDTOS}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-rounded" th:src="${topic.user.avatarUrl}">
+                        <img class="avatar-min img-rounded" th:src="${topic.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">

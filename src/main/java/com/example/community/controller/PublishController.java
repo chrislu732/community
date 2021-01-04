@@ -1,8 +1,7 @@
 package com.example.community.controller;
 
-import com.example.community.mapper.TopicMapper;
-import com.example.community.model.Topic;
 import com.example.community.model.User;
+import com.example.community.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class PublishController {
     @Autowired
-    TopicMapper topicMapper;
+    private TopicService topicService;
 
     @GetMapping("/publish")
     public String publish() {
@@ -56,14 +55,7 @@ public class PublishController {
             return "publish";
         }
         // add topic information into the database
-        Topic topic = new Topic();
-        topic.setTitle(title);
-        topic.setDescription(description);
-        topic.setTag(tag);
-        topic.setAuthor(user.getId());
-        topic.setGmtCreate(System.currentTimeMillis());
-        topic.setGmtModified(topic.getGmtCreate());
-        topicMapper.create(topic);
+        topicService.addTopic(title, description, tag, user);
         // return main page
         return "redirect:/";
     }

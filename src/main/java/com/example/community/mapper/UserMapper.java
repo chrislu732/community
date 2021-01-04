@@ -21,6 +21,9 @@ public interface UserMapper {
     @Select("select * from community_user where account_id = #{accountID}")
     User findByAccountID(@Param("accountID") Long accountID);
 
+    @Select("select * from community_user where name = #{name}")
+    User findByName(@Param("name") String name);
+
     @Select("select * from community_user where id = #{id}")
     User findByID(@Param("id") Integer id);
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>publish</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="/css/community.css?param=Math.random()" />
+    <script src="/js/jquery-3.5.1.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid sign-in">
+    <div class="row">
+        <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  Sign in / Register</h2>
+            <hr>
+            <form action="/sign_in" method="post">
+                <div class="form-group">
+                    <label for="user_name">User Name</label>
+                    <input type="text" class="form-control text" th:value="${userName}" id="user_name" name="user_name">
+                </div>
+                <span class="alert alert-danger" th:text="${error}" th:if="${error != null}"></span>
+                <button type="submit" class="btn btn-success btn-confirm">Sign in</button>
+            </form>
+        </div>
+        <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
+            <a class="btn btn-info btn-lg github"
+               href="https://github.com/login/oauth/authorize?client_id=6e10831c634ff4d2aed9&redirect_url=http://localhost:8686/callback&scope=user&state=1">GitHub User</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

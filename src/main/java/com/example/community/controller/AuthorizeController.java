@@ -5,6 +5,7 @@ import com.example.community.dto.GithubUser;
 import com.example.community.mapper.UserMapper;
 import com.example.community.model.User;
 import com.example.community.provider.GithubProvider;
+import com.example.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,8 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -51,15 +54,8 @@ public class AuthorizeController {
             String token;
             User tempUser = userMapper.findByAccountID(githubUser.getId());
             if (tempUser == null) {
-                User user = new User();
                 token = UUID.randomUUID().toString();
-                user.setName(githubUser.getLogin());
-                user.setAccountID(String.valueOf(githubUser.getId()));
-                user.setToken(token);
-                user.setGmtCreate(System.currentTimeMillis());
-                user.setGmtModified(user.getGmtCreate());
-                user.setBio(githubUser.getBio());
-                user.setAvatarUrl(githubUser.getAvatarUrl());
+                User user = userService.createUser(token, githubUser);
                 userMapper.insert(user);
             }else {
                 token = tempUser.getToken();

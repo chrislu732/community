@@ -21,12 +21,26 @@ public class TopicService {
     @Autowired
     private UserMapper userMapper;
 
+    //add topic
+    public void addTopic(String title, String description, String tag, User user) {
+        Topic topic = new Topic();
+        topic.setTitle(title);
+        topic.setDescription(description);
+        topic.setTag(tag);
+        topic.setAuthor(user.getId());
+        topic.setGmtCreate(System.currentTimeMillis());
+        topic.setGmtModified(topic.getGmtCreate());
+        topicMapper.create(topic);
+    }
+
     // get pagination dto
     public PaginationDTO getPaginationDTO(Integer page, Integer size) {
         // count the number of pages
         Integer totalCount = topicMapper.count();
         Integer totalPage;
-        if (totalCount % size == 0) {
+        if (totalCount == 0) {
+            totalPage = 1;
+        }else if (totalCount % size == 0) {
             totalPage = totalCount / size;
         }else {
             totalPage = totalCount / size + 1;
@@ -59,7 +73,9 @@ public class TopicService {
         // count the number of pages
         Integer totalCount = topicMapper.countById(id);
         Integer totalPage;
-        if (totalCount % size == 0) {
+        if (totalCount == 0) {
+            totalPage = 1;
+        }else if (totalCount % size == 0) {
             totalPage = totalCount / size;
         }else {
             totalPage = totalCount / size + 1;
