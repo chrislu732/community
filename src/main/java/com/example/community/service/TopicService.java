@@ -21,16 +21,26 @@ public class TopicService {
     @Autowired
     private UserMapper userMapper;
 
-    //add topic
-    public void addTopic(String title, String description, String tag, User user) {
-        Topic topic = new Topic();
-        topic.setTitle(title);
-        topic.setDescription(description);
-        topic.setTag(tag);
-        topic.setAuthor(user.getId());
-        topic.setGmtCreate(System.currentTimeMillis());
-        topic.setGmtModified(topic.getGmtCreate());
-        topicMapper.create(topic);
+    //add or update topic
+    public void addOrUpdateTopic(String title, String description, String tag, User user, Integer id) {
+        Topic topic;
+        if (id == null) {
+            topic = new Topic();
+            topic.setTitle(title);
+            topic.setDescription(description);
+            topic.setTag(tag);
+            topic.setAuthor(user.getId());
+            topic.setGmtCreate(System.currentTimeMillis());
+            topic.setGmtModified(topic.getGmtCreate());
+            topicMapper.create(topic);
+        }else {
+            topic = topicMapper.findByID(id);
+            topic.setTitle(title);
+            topic.setDescription(description);
+            topic.setTag(tag);
+            topic.setGmtModified(System.currentTimeMillis());
+            topicMapper.update(topic);
+        }
     }
 
     // get topic dto instance

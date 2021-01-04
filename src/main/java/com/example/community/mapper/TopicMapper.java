@@ -2,10 +2,7 @@ package com.example.community.mapper;
 
 import com.example.community.model.Topic;
 import com.example.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,6 +12,9 @@ import java.util.List;
 public interface TopicMapper {
     @Insert("insert into topic (title, description, gmt_create, gmt_modified, author, tag) values (#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{author}, #{tag})")
     void create(Topic topic);
+
+    @Update("update topic set title = #{title}, description = #{description}, tag = #{tag}, gmt_modified = #{gmtModified} where id = #{id}")
+    void update(Topic topic);
 
     @Select("select * from topic where id = #{id}")
     Topic findByID(@Param("id") Integer id);

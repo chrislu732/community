@@ -1,11 +1,13 @@
 package com.example.community.controller;
 
+import com.example.community.dto.TopicDTO;
 import com.example.community.model.User;
 import com.example.community.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,10 +23,22 @@ public class PublishController {
         return "publish";
     }
 
+    @GetMapping("/publish/{id}")
+    public String topicEdit(@PathVariable(name = "id") Integer id,
+                            Model model) {
+        TopicDTO topicDTO = topicService.getTopicDTO(id);
+        model.addAttribute("title", topicDTO.getTitle());
+        model.addAttribute("description", topicDTO.getDescription());
+        model.addAttribute("tag", topicDTO.getTag());
+        model.addAttribute("id", topicDTO.getId());
+        return "publish";
+    }
+
     @PostMapping("/publish")
     public String doPublish(@RequestParam("title") String title,
                             @RequestParam("description") String description,
                             @RequestParam("tag") String tag,
+                            @RequestParam("id") Integer id,
                             HttpServletRequest request,
                             Model model) {
         // keep template information
@@ -55,7 +69,7 @@ public class PublishController {
             return "publish";
         }
         // add topic information into the database
-        topicService.addTopic(title, description, tag, user);
+        topicService.addOrUpdateTopic(title, description, tag, user, id);
         // return main page
         return "redirect:/";
     }

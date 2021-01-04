@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class IndexController {
     @Autowired
     private TopicService topicService;
-    @Autowired
-    private AvatarHelper avatarHelper;
 
     @GetMapping("/")
     public String index(Model model,
