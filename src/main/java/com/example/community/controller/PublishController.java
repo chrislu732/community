@@ -18,11 +18,13 @@ public class PublishController {
     @Autowired
     private TopicService topicService;
 
+    // new topic
     @GetMapping("/publish")
     public String publish() {
         return "publish";
     }
 
+    // edit topic
     @GetMapping("/publish/{id}")
     public String topicEdit(@PathVariable(name = "id") Integer id,
                             Model model) {
@@ -34,11 +36,12 @@ public class PublishController {
         return "publish";
     }
 
+    //insert topic to database
     @PostMapping("/publish")
-    public String doPublish(@RequestParam("title") String title,
-                            @RequestParam("description") String description,
-                            @RequestParam("tag") String tag,
-                            @RequestParam("id") Integer id,
+    public String doPublish(@RequestParam(name = "title", required = false) String title,
+                            @RequestParam(name = "description", required = false) String description,
+                            @RequestParam(name = "tag", required = false) String tag,
+                            @RequestParam(name = "id", required = false) Integer id,
                             HttpServletRequest request,
                             Model model) {
         // keep template information

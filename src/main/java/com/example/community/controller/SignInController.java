@@ -1,7 +1,5 @@
 package com.example.community.controller;
 
-import com.example.community.mapper.UserMapper;
-import com.example.community.model.User;
 import com.example.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,16 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
 
 @Controller
 public class SignInController {
     @Autowired
     UserService userService;
-    @Autowired
-    UserMapper userMapper;
 
     @GetMapping("/sign_in")
     public String signIn() {
@@ -41,15 +35,7 @@ public class SignInController {
         }
 
         // get or create token
-        String token;
-        User tempUser = userMapper.findByName(userName);
-        if (tempUser == null) {
-            token = UUID.randomUUID().toString();
-            User user = userService.createUser(userName, token);
-            userMapper.insert(user);
-        }else {
-            token = tempUser.getToken();
-        }
+        String token = userService.createOrVerifyUser(userName);
         // add a "token" cookie
         response.addCookie(new Cookie("token", token));
 
