@@ -2,6 +2,8 @@ package com.example.community.service;
 
 import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.TopicDTO;
+import com.example.community.exception.CustomizeErrorCode;
+import com.example.community.exception.CustomizeException;
 import com.example.community.mapper.TopicMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.model.Topic;
@@ -39,13 +41,19 @@ public class TopicService {
             topic.setDescription(description);
             topic.setTag(tag);
             topic.setGmtModified(System.currentTimeMillis());
-            topicMapper.update(topic);
+            int updated = topicMapper.update(topic);
+            if (updated == 0) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 
     // get topic dto instance
     public TopicDTO getTopicDTO(Integer id) {
         Topic topic = topicMapper.findByID(id);
+        if (topic == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         User user = userMapper.findByID(topic.getAuthor());
         TopicDTO topicDTO = new TopicDTO();
         BeanUtils.copyProperties(topic, topicDTO);

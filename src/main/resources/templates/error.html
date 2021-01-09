@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>error</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css?v=010901"/>
+    <script src="/js/jquery-3.5.1.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="jumbotron error">
+    <div class="container">
+        <h1>OOPS</h1>
+        <p th:text="${message}">Something goes wrong here</p>
+        <p><a class="btn btn-primary btn-lg" href="/" role="button">Home Page</a></p>
+    </div>
+</div>
+</body>
+</html>

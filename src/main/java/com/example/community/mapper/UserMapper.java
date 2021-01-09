@@ -13,13 +13,13 @@ public interface UserMapper {
     void insert(User user);
 
     @Update("update community_user set name = #{name}, gmt_modified = #{gmtModified}, bio = #{bio}, avatar_url = #{avatarUrl} where id = #{id}")
-    void update(User user);
+    int update(User user);
 
     @Select("select * from community_user where token = #{token}")
     User findByToken(@Param("token") String token);
 
     @Select("select * from community_user where account_id = #{accountID}")
-    User findByAccountID(@Param("accountID") Long accountID);
+    User findByAccountID(@Param("accountID") String accountID);
 
     @Select("select * from community_user where name = #{name}")
     User findByName(@Param("name") String name);

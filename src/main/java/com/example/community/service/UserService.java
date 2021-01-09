@@ -1,6 +1,8 @@
 package com.example.community.service;
 
 import com.example.community.dto.GithubUser;
+import com.example.community.exception.CustomizeErrorCode;
+import com.example.community.exception.CustomizeException;
 import com.example.community.helper.AvatarHelper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.model.User;
@@ -19,7 +21,7 @@ public class UserService {
     // create github user
     public String createOrUpdateUser(GithubUser githubUser) {
         String token;
-        User existUser = userMapper.findByAccountID(githubUser.getId());
+        User existUser = userMapper.findByAccountID(String.valueOf(githubUser.getId()));
         if (existUser == null) {
             token = UUID.randomUUID().toString();
             User user = new User();
@@ -37,7 +39,10 @@ public class UserService {
             existUser.setGmtModified(System.currentTimeMillis());
             existUser.setBio(githubUser.getBio());
             existUser.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.update(existUser);
+            int updated = userMapper.update(existUser);
+            if (updated == 0) {
+                throw new CustomizeException(CustomizeErrorCode.USER_NOT_FOUND);
+            }
         }
         return token;
     }

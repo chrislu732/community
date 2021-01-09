@@ -42,6 +42,10 @@ body {
     margin-top: 100px;
 }
 
+.error {
+    background-color: #f8efc0;
+}
+
 .avatar-min {
     width: 38px;
 }

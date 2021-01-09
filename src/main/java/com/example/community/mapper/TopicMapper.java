@@ -14,7 +14,7 @@ public interface TopicMapper {
     void create(Topic topic);
 
     @Update("update topic set title = #{title}, description = #{description}, tag = #{tag}, gmt_modified = #{gmtModified} where id = #{id}")
-    void update(Topic topic);
+    int update(Topic topic);
 
     @Select("select * from topic where id = #{id}")
     Topic findByID(@Param("id") Integer id);
