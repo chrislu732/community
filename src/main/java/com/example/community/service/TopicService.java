@@ -24,7 +24,7 @@ public class TopicService {
     private UserMapper userMapper;
 
     //add or update topic
-    public void addOrUpdateTopic(String title, String description, String tag, User user, Integer id) {
+    public void addOrUpdateTopic(String title, String description, String tag, User user, Long id) {
         Topic topic;
         if (id == null) {
             topic = new Topic();
@@ -49,7 +49,7 @@ public class TopicService {
     }
 
     // get topic dto instance
-    public TopicDTO getTopicDTO(Integer id) {
+    public TopicDTO getTopicDTO(Long id) {
         Topic topic = topicMapper.findByID(id);
         if (topic == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -97,7 +97,7 @@ public class TopicService {
         return paginationDTO;
     }
 
-    public PaginationDTO getPaginationDTO(Integer id, Integer page, Integer size) {
+    public PaginationDTO getPaginationDTO(Long id, Integer page, Integer size) {
         // count the number of pages
         Integer totalCount = topicMapper.countById(id);
         Integer totalPage;
@@ -130,5 +130,12 @@ public class TopicService {
         }
         paginationDTO.setTopicDTOS(topicDTOS);
         return paginationDTO;
+    }
+
+    public void incViewCount(Long id) {
+        int updated = topicMapper.updateViewCount(id);
+        if (updated == 0) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
     }
 }

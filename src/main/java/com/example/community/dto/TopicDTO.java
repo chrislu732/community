@@ -6,13 +6,13 @@ import lombok.Data;
 // connect topic and user
 @Data
 public class TopicDTO {
-    private Integer id;
+    private Long id;
     private String title;
     private String description;
     private String tag;
     private Long gmtCreate;
     private Long gmtModified;
-    private Integer author;
+    private Long author;
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;

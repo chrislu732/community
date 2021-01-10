@@ -16,19 +16,22 @@ public interface TopicMapper {
     @Update("update topic set title = #{title}, description = #{description}, tag = #{tag}, gmt_modified = #{gmtModified} where id = #{id}")
     int update(Topic topic);
 
+    @Update("update topic set view_count = view_count + 1 where id = #{id}")
+    int updateViewCount(@Param("id") Long id);
+
     @Select("select * from topic where id = #{id}")
-    Topic findByID(@Param("id") Integer id);
+    Topic findByID(@Param("id") Long id);
 
     @Select("select * from topic limit #{offset}, #{size}")
     List<Topic> list(@Param("offset") Integer offset, @Param("size") Integer size);
 
     @Select("select * from topic where author = #{id} limit #{offset}, #{size}")
-    List<Topic> listById(@Param("id") Integer id, @Param("offset") Integer offset, @Param("size") Integer size);
+    List<Topic> listById(@Param("id") Long id, @Param("offset") Integer offset, @Param("size") Integer size);
 
     @Select("select count(1) from topic")
     Integer count();
 
     @Select("select count(1) from topic where author = #{id}")
-    Integer countById(@Param("id") Integer id);
+    Integer countById(@Param("id") Long id);
 
 }

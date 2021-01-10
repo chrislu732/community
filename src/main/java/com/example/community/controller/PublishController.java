@@ -26,7 +26,7 @@ public class PublishController {
 
     // edit topic
     @GetMapping("/publish/{id}")
-    public String topicEdit(@PathVariable(name = "id") Integer id,
+    public String topicEdit(@PathVariable(name = "id") Long id,
                             Model model) {
         TopicDTO topicDTO = topicService.getTopicDTO(id);
         model.addAttribute("title", topicDTO.getTitle());
@@ -41,7 +41,7 @@ public class PublishController {
     public String doPublish(@RequestParam(name = "title", required = false) String title,
                             @RequestParam(name = "description", required = false) String description,
                             @RequestParam(name = "tag", required = false) String tag,
-                            @RequestParam(name = "id", required = false) Integer id,
+                            @RequestParam(name = "id", required = false) Long id,
                             HttpServletRequest request,
                             Model model) {
         // keep template information

@@ -28,7 +28,7 @@ public class CustomizeErrorController implements ErrorController {
         if (status.is4xxClientError()) {
             model.addAttribute("message", "The request is invalid");
         }else if (status.is5xxServerError()) {
-            model.addAttribute("message", "Something goes wrong here");
+            model.addAttribute("message", "The Serve goes wrong here");
         }
         return new ModelAndView("error");
 

@@ -21,12 +21,12 @@ public class UserService {
     // create github user
     public String createOrUpdateUser(GithubUser githubUser) {
         String token;
-        User existUser = userMapper.findByAccountID(String.valueOf(githubUser.getId()));
+        User existUser = userMapper.findByAccountId(String.valueOf(githubUser.getId()));
         if (existUser == null) {
             token = UUID.randomUUID().toString();
             User user = new User();
             user.setName(githubUser.getLogin());
-            user.setAccountID(String.valueOf(githubUser.getId()));
+            user.setAccountId(String.valueOf(githubUser.getId()));
             user.setToken(token);
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
@@ -67,7 +67,7 @@ public class UserService {
     }
 
     // update normal user
-    public  String updateUser(Integer id, String name, String avatarUrl, String bio) {
+    public  String updateUser(Long id, String name, String avatarUrl, String bio) {
         User existUser = userMapper.findByID(id);
         if (existUser == null) return null;
         existUser.setName(name);

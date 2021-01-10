@@ -15,9 +15,10 @@ public class TopicController {
     TopicService topicService;
 
     @GetMapping("/topic/{id}")
-    public String topic(@PathVariable(name = "id") Integer id,
+    public String topic(@PathVariable(name = "id") Long id,
                         Model model) {
         TopicDTO topicDTO = topicService.getTopicDTO(id);
+        topicService.incViewCount(id);
         model.addAttribute("topic", topicDTO);
         return "topic";
     }
