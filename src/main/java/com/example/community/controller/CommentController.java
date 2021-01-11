@@ -1,24 +1,31 @@
 package com.example.community.controller;
 
 import com.example.community.dto.CommentDTO;
-import com.example.community.model.Comment;
-import okhttp3.Request;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import com.example.community.dto.ResultDTO;
+import com.example.community.exception.CustomizeErrorCode;
+import com.example.community.model.User;
+import com.example.community.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import javax.servlet.http.HttpServletRequest;
+
+// handle the comments
+@RestController
 public class CommentController {
+    @Autowired
+    CommentService commentService;
+
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO) {
-        Comment comment = new Comment();
-        BeanUtils.copyProperties(commentDTO, comment);
-        comment.setGmtCreate(System.currentTimeMillis());
-        comment.setGmtModified(comment.getGmtCreate());
-        comment.setCommentator(1L);
-        return null;
+    public ResultDTO post(@RequestBody CommentDTO commentDTO,
+                             HttpServletRequest request) {
+        // get user information from the session
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return ResultDTO.errorOf(CustomizeErrorCode.USER_NOT_FOUND);
+        }
+
+        ResultDTO resultDTO = commentService.commentPost(commentDTO, user);
+        return resultDTO == null ? ResultDTO.okOf() : resultDTO;
     }
 }

@@ -7,18 +7,17 @@ body {
     margin: 30px;
 }
 
-.publish .btn-publish {
-    float: right;
-    margin-bottom: 15px;
-}
-
 .profile .section {
     margin-top: 15px;
 }
 
-.topic .edit {
+.topic .btn-edit {
     color: #999;
     font-size: 14px;
+}
+
+.topic .comment-box {
+    margin: 10px 0;
 }
 
 .sign-in {
@@ -54,4 +53,9 @@ body {
     font-size: 12px;
     font-weight: normal;
     color: #999;
-}
+
+}.btn-publish {
+     float: right;
+     margin-bottom: 15px;
+ }
+

@@ -43,7 +43,7 @@ public class TopicService {
             topic.setGmtModified(System.currentTimeMillis());
             int updated = topicMapper.update(topic);
             if (updated == 0) {
-                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+                throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
             }
         }
     }
@@ -52,7 +52,7 @@ public class TopicService {
     public TopicDTO getTopicDTO(Long id) {
         Topic topic = topicMapper.findByID(id);
         if (topic == null) {
-            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
         }
         User user = userMapper.findByID(topic.getAuthor());
         TopicDTO topicDTO = new TopicDTO();
@@ -135,7 +135,7 @@ public class TopicService {
     public void incViewCount(Long id) {
         int updated = topicMapper.updateViewCount(id);
         if (updated == 0) {
-            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.community.mapper;
 
 import com.example.community.model.Topic;
-import com.example.community.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +17,9 @@ public interface TopicMapper {
 
     @Update("update topic set view_count = view_count + 1 where id = #{id}")
     int updateViewCount(@Param("id") Long id);
+
+    @Update("update topic set comment_count = comment_count + 1 where id = #{id}")
+    int updateCommentCount(@Param("id") Long id);
 
     @Select("select * from topic where id = #{id}")
     Topic findByID(@Param("id") Long id);
