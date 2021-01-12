@@ -49,6 +49,10 @@ public class ProfileController {
             cookie.setPath("/");
             response.addCookie(cookie);
             request.getSession().removeAttribute("user");
+            String preUrl = (String) request.getSession().getAttribute("preUrl");
+            if (preUrl != null) {
+                return "redirect:" + preUrl;
+            }
             return "redirect:/";
         }
 

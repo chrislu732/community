@@ -12,7 +12,7 @@ function postComment() {
         }),
         success: function(response) {
             if (response.code == 200) {
-                window.location.replace("/topic/" + topicId);
+                window.location.reload();
             }else {
                 alert(response.message);
             }
@@ -22,4 +22,21 @@ function postComment() {
     });
 }
 
-// window.localStorage.setItem("closable", true);
+function savePath() {
+    var path = window.location.pathname;
+    $.ajax({
+        type: "POST",
+        url: "/last_status",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "preUrl": path
+        }),
+        success: function(response) {
+            if (response.code != 200) {
+                alert(response.message);
+            }
+        },
+        dataType: "json"
+    });
+}
+

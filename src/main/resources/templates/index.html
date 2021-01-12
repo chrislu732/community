@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="/css/community.css?v=0111"/>
     <script src="/js/jquery-3.5.1.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
 </head>
-<body>
+<body onload="savePath()">
     <div th:insert="~{navigation :: nav}"></div>
     <div class="container-fluid main">
         <div class="row">
             <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                <!--topic list-->
                 <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>  Explore</h2>
                 <hr>
                 <div class="media" th:each="topic : ${pagination.topicDTOS}">
@@ -32,6 +34,7 @@
                         </span>
                     </div>
                 </div>
+                <!--page navigation-->
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li th:if="${pagination.firstPage}">
@@ -60,6 +63,7 @@
                     </ul>
                 </nav>
             </div>
+            <!--sidebar-->
             <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                 <h3>edit later</h3>
                 edit later edit later edit later edit later edit later edit later<br>

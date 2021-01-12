@@ -8,7 +8,9 @@ public enum CustomizeErrorCode {
     SYSTEM_ERROR(2004, "Unexpected Error"),
     TYPE_NOT_FOUND(2005, "Comment type is invalid"),
     COMMENT_NOT_FOUND(2006, "Comment doesn't exist"),
-    CONTENT_IS_NULL(2007, "Content cannot be null");
+    CONTENT_IS_NULL(2007, "Content cannot be null"),
+    SIGN_IN_ERROR(2008, "sign in failed"),
+    URL_ERROR(2009, "wrong url");
 
     private String message;
     private Integer code;

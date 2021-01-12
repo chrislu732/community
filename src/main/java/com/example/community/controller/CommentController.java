@@ -1,6 +1,6 @@
 package com.example.community.controller;
 
-import com.example.community.dto.CommentDTO;
+import com.example.community.dto.CommentCreateDTO;
 import com.example.community.dto.ResultDTO;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.model.User;
@@ -17,15 +17,15 @@ public class CommentController {
     CommentService commentService;
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public ResultDTO post(@RequestBody CommentDTO commentDTO,
-                             HttpServletRequest request) {
+    public ResultDTO post(@RequestBody CommentCreateDTO commentCreateDTO,
+                          HttpServletRequest request) {
         // get user information from the session
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.USER_NOT_FOUND);
         }
 
-        ResultDTO resultDTO = commentService.commentPost(commentDTO, user);
+        ResultDTO resultDTO = commentService.commentPost(commentCreateDTO, user);
         return resultDTO == null ? ResultDTO.okOf() : resultDTO;
     }
 }

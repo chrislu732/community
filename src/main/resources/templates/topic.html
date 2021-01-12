@@ -10,41 +10,77 @@
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
 </head>
-<body>
+<body onload="savePath()">
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main topic">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h4><span th:text="${topic.title}"></span></h4>
-            <span class="text-desc">
-                Author: <span th:text="${topic.user.name}"></span> |
-                Created Date: <span th:text="${#dates.format(topic.gmtCreate, 'yyyy-MM-dd')}"></span> |
-                Views : <span th:text="${topic.viewCount}"></span>
-            </span>
+            <!--topic detail-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4><span th:text="${topic.title}"></span></h4>
+                <span class="text-desc">
+                    Author: <span th:text="${topic.user.name}"></span> |
+                    Created Date: <span th:text="${#dates.format(topic.gmtCreate, 'yyyy-MM-dd')}"></span> |
+                    Views : <span th:text="${topic.viewCount}"></span>
+                </span>
+                <hr class="comment-sp">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${topic.description}"></div>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <a th:href="@{'/publish/' + ${topic.id}}" class="btn-edit" th:if="${session.user != null && session.user.id == topic.author}">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                </a>
+            </div>
             <hr>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${topic.description}"></div>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <a th:href="@{'/publish/' + ${topic.id}}" class="btn-edit" th:if="${session.user != null && session.user.id == topic.author}">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-            </a>
-            <hr>
-            <div class="media">
-                <div class="media-left media-middle">
-                    <a href="#">
-                        <img class="avatar-min img-rounded" th:src="${topic.user.avatarUrl}">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h5 class="media-heading">
-                        <span th:text="${topic.user.name}"></span>
-                    </h5>
+            <!--comments-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4><span th:text="${topic.commentCount}"></span> Comments</h4>
+                <div class="media" th:each="comment : ${comments}">
+                    <div class="media-left media-middle">
+                        <a href="#">
+                            <img class="avatar-min img-rounded" th:src="${comment.user.avatarUrl}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">
+                            <span th:text="${comment.user.name}"></span>
+                        </h5>
+                        <div th:text="${comment.content}"></div>
+                        <div class="comment">
+                            <span class="glyphicon glyphicon-thumbs-up icon" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-comment icon" aria-hidden="true"></span>
+                            <span class="pull-right" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></span>
+                        </div>
+                    </div>
+                    <hr class="hr-size">
                 </div>
             </div>
-            <input type="hidden" id="topic_id" th:value="${topic.id}">
-            <textarea class="form-control comment-box" rows="6" id="comment_content"></textarea>
-            <button type="submit" class="btn btn-success btn-publish" onclick="postComment()">Submit</button>
+            <!--comment editor-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${session.user == null}">
+                <h4>Write Your Comment</h4>
+                <a href="/sign_in" class="btn btn-primary active sign-in-btn" role="button">Sign In</a>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:unless="${session.user == null}">
+                <h4>Write Your Comment</h4>
+                <div class="media">
+                    <div class="media-left media-middle">
+                        <a href="#">
+                            <img class="avatar-min img-rounded" th:src="${session.user.avatarUrl}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">
+                            <span th:text="${session.user.name}"></span>
+                        </h5>
+                    </div>
+                </div>
+                <input type="hidden" id="topic_id" th:value="${topic.id}">
+                <textarea class="form-control comment-box" rows="6" id="comment_content"></textarea>
+                <button type="submit" class="btn btn-success btn-publish" onclick="postComment()">Submit</button>
+            </div>
         </div>
+        <!--right items-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <!--publisher information-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>Publisher</h4>
                 <div class="media">
@@ -61,6 +97,7 @@
                 </div>
             </div>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!--related topics-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 Related Topics
             </div>

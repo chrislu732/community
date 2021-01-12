@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // service for topics
 @Service
@@ -84,15 +85,15 @@ public class TopicService {
         paginationDTO.setPagination(page, totalPage);
         // get topic dto
         Integer offset = size * (page - 1);
-        List<TopicDTO> topicDTOS = new ArrayList<>();
         List<Topic> topics = topicMapper.list(offset, size);
-        for (Topic topic : topics) {
-            User user = userMapper.findByID(topic.getAuthor());
-            TopicDTO topicDTO = new TopicDTO();
-            BeanUtils.copyProperties(topic, topicDTO);
-            topicDTO.setUser(user);
-            topicDTOS.add(topicDTO);
-        }
+        List<TopicDTO> topicDTOS = topics.stream()
+                .map(topic -> {
+                    User user = userMapper.findByID(topic.getAuthor());
+                    TopicDTO topicDTO = new TopicDTO();
+                    BeanUtils.copyProperties(topic, topicDTO);
+                    topicDTO.setUser(user);
+                    return topicDTO;
+                }).collect(Collectors.toList());
         paginationDTO.setTopicDTOS(topicDTOS);
         return paginationDTO;
     }
@@ -119,15 +120,15 @@ public class TopicService {
         paginationDTO.setPagination(page, totalPage);
         // get topic dto
         Integer offset = size * (page - 1);
-        List<TopicDTO> topicDTOS = new ArrayList<>();
         List<Topic> topics = topicMapper.listById(id, offset, size);
-        for (Topic topic : topics) {
-            User user = userMapper.findByID(topic.getAuthor());
-            TopicDTO topicDTO = new TopicDTO();
-            BeanUtils.copyProperties(topic, topicDTO);
-            topicDTO.setUser(user);
-            topicDTOS.add(topicDTO);
-        }
+        List<TopicDTO> topicDTOS = topics.stream()
+                .map(topic -> {
+                    User user = userMapper.findByID(topic.getAuthor());
+                    TopicDTO topicDTO = new TopicDTO();
+                    BeanUtils.copyProperties(topic, topicDTO);
+                    topicDTO.setUser(user);
+                    return topicDTO;
+                }).collect(Collectors.toList());
         paginationDTO.setTopicDTOS(topicDTOS);
         return paginationDTO;
     }

@@ -20,6 +20,34 @@ body {
     margin: 10px 0;
 }
 
+.topic .comment-sp {
+    margin-top: 0;
+}
+
+.topic .comment {
+    margin-top: 10px;
+}
+
+.topic .hr-size {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.topic .sign-in-btn {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.topic .comment .icon {
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.topic .comment .icon:hover {
+    color: #499ef3;
+}
+
 .sign-in {
     background-color: white;
     margin-top: 200px;
@@ -54,8 +82,12 @@ body {
     font-weight: normal;
     color: #999;
 
-}.btn-publish {
+}
+
+.btn-publish {
      float: right;
      margin-bottom: 15px;
  }
+
+
 

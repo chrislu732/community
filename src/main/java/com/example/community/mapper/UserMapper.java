@@ -4,6 +4,8 @@ import com.example.community.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 // database operations
 
 @Repository
@@ -26,4 +28,12 @@ public interface UserMapper {
 
     @Select("select * from community_user where id = #{id}")
     User findByID(@Param("id") Long id);
+
+    @Select({"<script>",
+            "select * from community_user where id in",
+            "<foreach collection='ids' item='id' open='(' separator=',' close=')'>",
+            "#{id}",
+            "</foreach>",
+            "</script>"})
+    List<User> findByIDList(@Param("ids") List<Long> ids);
 }
