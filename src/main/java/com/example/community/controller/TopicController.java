@@ -2,6 +2,7 @@ package com.example.community.controller;
 
 import com.example.community.dto.CommentDTO;
 import com.example.community.dto.TopicDTO;
+import com.example.community.enums.CommentTypeEnum;
 import com.example.community.service.CommentService;
 import com.example.community.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class TopicController {
                         Model model) {
         TopicDTO topicDTO = topicService.getTopicDTO(id);
         topicService.incViewCount(id);
-        List<CommentDTO> commentDTOS = commentService.getCommentByTopic(id);
+        List<CommentDTO> commentDTOS = commentService.getCommentByTopic(id, CommentTypeEnum.TOPIC);
         model.addAttribute("topic", topicDTO);
         model.addAttribute("comments", commentDTOS);
         return "topic";

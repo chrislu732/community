@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/community.css?v=0111" />
     <script src="/js/jquery-3.5.1.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
 </head>
 <body onload="savePath()">
@@ -35,7 +36,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4><span th:text="${topic.commentCount}"></span> Comments</h4>
                 <div class="media" th:each="comment : ${comments}">
-                    <div class="media-left media-middle">
+                    <div class="media-left">
                         <a href="#">
                             <img class="avatar-min img-rounded" th:src="${comment.user.avatarUrl}">
                         </a>
@@ -47,8 +48,16 @@
                         <div th:text="${comment.content}"></div>
                         <div class="comment">
                             <span class="glyphicon glyphicon-thumbs-up icon" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-comment icon" aria-hidden="true"></span>
-                            <span class="pull-right" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></span>
+                            <span class="icon" th:data-parentId="${comment.id}" onclick="subComments(this)">
+                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                                <span th:text="${comment.commentCount}"></span>
+                            </span>
+                            <span class="pull-right time" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></span>
+                        </div>
+                        <!--sub comments-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comment" th:id="${'subcomment-' + comment.id}">
+                            <textarea class="form-control comment-box" rows="3" th:id="${'subcomment-input-' + comment.id}"></textarea>
+                            <button type="submit" class="btn btn-success btn-publish" th:data-id="${comment.id}" onclick="sendSubComment(this)">Submit</button>
                         </div>
                     </div>
                     <hr class="hr-size">
@@ -73,9 +82,8 @@
                         </h5>
                     </div>
                 </div>
-                <input type="hidden" id="topic_id" th:value="${topic.id}">
                 <textarea class="form-control comment-box" rows="6" id="comment_content"></textarea>
-                <button type="submit" class="btn btn-success btn-publish" onclick="postComment()">Submit</button>
+                <button type="submit" class="btn btn-success btn-publish" th:data-id="${topic.id}" onclick="sendComment(this)">Submit</button>
             </div>
         </div>
         <!--right items-->

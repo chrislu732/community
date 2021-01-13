@@ -38,6 +38,14 @@ body {
     margin-bottom: 20px;
 }
 
+.topic .sub-comment {
+    border-radius: 5px;
+    border: 1px solid #d0d0d0;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding-top: 15px;
+}
+
 .topic .comment .icon {
     margin-right: 6px;
     font-size: 15px;
@@ -46,6 +54,10 @@ body {
 
 .topic .comment .icon:hover {
     color: #499ef3;
+}
+
+.topic .comment .time {
+    margin-bottom: 5px;
 }
 
 .sign-in {

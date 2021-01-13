@@ -3,7 +3,6 @@ package com.example.community.service;
 import com.example.community.dto.CommentCreateDTO;
 import com.example.community.dto.CommentDTO;
 import com.example.community.dto.ResultDTO;
-import com.example.community.dto.TopicDTO;
 import com.example.community.enums.CommentTypeEnum;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.mapper.CommentMapper;
@@ -73,14 +72,15 @@ public class CommentService {
                 return ResultDTO.errorOf(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.create(comment);
+            commentMapper.updateCommentCount(dbComment.getId());
         }
         return null;
     }
 
     //list all comments under the topic
-    public List<CommentDTO> getCommentByTopic(Long id) {
+    public List<CommentDTO> getCommentByTopic(Long id, CommentTypeEnum commentTypeEnum) {
         //get all comments
-        List<Comment> comments = commentMapper.findByParentAndType(id, 1);
+        List<Comment> comments = commentMapper.findByParentAndType(id, commentTypeEnum.getType());
         if (comments.size() == 0) {
             return new ArrayList<>();
         }
