@@ -27,11 +27,18 @@
                 <hr class="comment-sp">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${topic.description}"></div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <a th:href="@{'/publish/' + ${topic.id}}" class="btn-edit" th:if="${session.user != null && session.user.id == topic.author}">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                </a>
+                <div th:if="${session.user != null && session.user.id == topic.author}">
+                    <a th:href="@{'/publish/' + ${topic.id}}" class="btn-edit">
+                        <span class="glyphicon glyphicon-edit"></span>  Edit
+                    </a>
+                    <hr class="hr-size-2">
+                </div>
             </div>
             <hr>
+            <!--tags-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <span class="label label-info tags" th:text="${tag}" th:each="tag : ${topic.tag.split(',')}"></span>
+            </div>
             <!--comments-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4><span th:text="${topic.commentCount}"></span> Comments</h4>
@@ -107,7 +114,12 @@
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <!--related topics-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                Related Topics
+                <h4>Related Topics</h4>
+                <ul class="related-topics">
+                    <li th:each="relate : ${relatedTopics}">
+                        <a th:href="@{'/topic/'+ ${relate.id}}" th:text="${relate.title}"></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

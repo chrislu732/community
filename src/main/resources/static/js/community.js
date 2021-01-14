@@ -94,3 +94,25 @@ function subComments(btn) {
     subComments.toggleClass("in");
 
 }
+
+function showTags() {
+    $("#tagLibrary").show();
+}
+
+function removeTags() {
+    $("#tagLibrary").hide();
+}
+
+function addTag(btn) {
+    var tag = btn.getAttribute("data-tag");
+    var textStr = $("#tag").val();
+    if (textStr.indexOf(tag) == -1) {
+        if (textStr) {
+            $("#tag").val(textStr + ',' + tag);
+        }else {
+            $("#tag").val(tag);
+        }
+    }
+}
+
+

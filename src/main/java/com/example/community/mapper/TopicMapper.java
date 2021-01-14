@@ -36,4 +36,6 @@ public interface TopicMapper {
     @Select("select count(1) from topic where author = #{id}")
     Integer countById(@Param("id") Long id);
 
+    @Select("select id from topic where id != #{id} and tag regexp #{tags}")
+    List<Long> findRelated(@Param("id") Long id, @Param("tags") String tags);
 }

@@ -11,9 +11,14 @@ body {
     margin-top: 15px;
 }
 
-.topic .btn-edit {
+.btn-edit {
     color: #999;
     font-size: 14px;
+}
+
+.topic .tags {
+    margin-right: 5px;
+    font-size: 12px;
 }
 
 .topic .comment-box {
@@ -26,11 +31,6 @@ body {
 
 .topic .comment {
     margin-top: 10px;
-}
-
-.topic .hr-size {
-    margin-top: 0;
-    margin-bottom: 0;
 }
 
 .topic .sign-in-btn {
@@ -60,6 +60,13 @@ body {
     margin-bottom: 5px;
 }
 
+.topic .related-topics {
+    padding-left: 0;
+    line-height: 20px;
+    font-size: 15px;
+    list-style: none;
+}
+
 .sign-in {
     background-color: white;
     margin-top: 200px;
@@ -79,6 +86,33 @@ body {
 .sign-in .github {
     margin-left: 130px;
     margin-top: 100px;
+}
+
+.publish .tag-display {
+    border-radius: 5px;
+    border: 1px solid #d0d0d0;
+    display: none;
+    margin: 10px;
+    padding: 10px;
+}
+
+.publish .tag-remove {
+    cursor: pointer;
+    line-height: 2;
+    float: right;
+}
+
+.publish .tag-tab {
+    text-decoration-line: none;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 16px;
+    font-size: 12px;
+    margin: 4px;
+}
+
+.publish .tag-tab:hover {
+    background-color: #339dff;
 }
 
 .error {
@@ -101,5 +135,14 @@ body {
      margin-bottom: 15px;
  }
 
+.hr-size {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.hr-size-2 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
 
 

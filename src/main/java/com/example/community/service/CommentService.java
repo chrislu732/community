@@ -3,6 +3,7 @@ package com.example.community.service;
 import com.example.community.dto.CommentCreateDTO;
 import com.example.community.dto.CommentDTO;
 import com.example.community.dto.ResultDTO;
+import com.example.community.dto.TopicDTO;
 import com.example.community.enums.CommentTypeEnum;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.mapper.CommentMapper;

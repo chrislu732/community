@@ -27,8 +27,10 @@ public class TopicController {
         TopicDTO topicDTO = topicService.getTopicDTO(id);
         topicService.incViewCount(id);
         List<CommentDTO> commentDTOS = commentService.getCommentByTopic(id, CommentTypeEnum.TOPIC);
+        List<TopicDTO> topicDTOS = topicService.getRelatedTopic(topicDTO);
         model.addAttribute("topic", topicDTO);
         model.addAttribute("comments", commentDTOS);
+        model.addAttribute("relatedTopics", topicDTOS);
         return "topic";
     }
 }

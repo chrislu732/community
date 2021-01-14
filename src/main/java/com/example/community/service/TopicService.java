@@ -8,10 +8,13 @@ import com.example.community.mapper.TopicMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.model.Topic;
 import com.example.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +64,7 @@ public class TopicService {
         return topicDTO;
     }
 
+    // get pagination for the website
     public PaginationDTO getPaginationDTO(Long id, Integer page, Integer size) {
         // count the number of pages
         Integer totalCount = id == null ? topicMapper.count() : topicMapper.countById(id);
@@ -91,10 +95,29 @@ public class TopicService {
         return paginationDTO;
     }
 
+    // count the time of view
     public void incViewCount(Long id) {
         int updated = topicMapper.updateViewCount(id);
         if (updated == 0) {
             throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
         }
+    }
+
+    // get the list of related topics
+    public List<TopicDTO> getRelatedTopic(TopicDTO topicDTO) {
+        if (StringUtils.isBlank(topicDTO.getTag())) {
+            return new ArrayList<>();
+        }
+        // edit the tags for search
+        String[] tagsArray = StringUtils.split(topicDTO.getTag(), ',');
+        String tags = Arrays.stream(tagsArray)
+                .map(StringUtils::strip)
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.joining("|"));
+        List<Long> topicIds = topicMapper.findRelated(topicDTO.getId(), tags);
+        List<TopicDTO> topicDTOS = topicIds.stream()
+                .map(this::getTopicDTO)
+                .collect(Collectors.toList());
+        return topicDTOS;
     }
 }

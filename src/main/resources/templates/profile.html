@@ -27,9 +27,12 @@
                 <div class="media-body">
                     <h4 class="media-heading">
                         <a th:href="@{'/topic/' + ${topic.id}}" th:text="${topic.title}"></a>
+                        <a th:href="@{'/publish/' + ${topic.id}}" class="btn-edit">
+                            <span class="glyphicon glyphicon-edit"></span>  Edit
+                        </a>
                     </h4>
                     <span class="text-desc">
-                            <span th:text="${topic.commentCount}"></span> comments · <span th:text="${topic.viewCount}"></span> views · <span th:text="${#dates.format(topic.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
+                        <span th:text="${topic.commentCount}"></span> comments · <span th:text="${topic.viewCount}"></span> views · <span th:text="${#dates.format(topic.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
                     </span>
                 </div>
             </div>

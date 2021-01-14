@@ -1,6 +1,7 @@
 package com.example.community.controller;
 
 import com.example.community.dto.TopicDTO;
+import com.example.community.helper.TagHelper;
 import com.example.community.model.User;
 import com.example.community.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +11,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class PublishController {
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private TagHelper tagHelper;
 
     // new topic
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model) {
+        model.addAttribute("tags", tagHelper.getTags());
         return "publish";
     }
 
@@ -33,6 +40,7 @@ public class PublishController {
         model.addAttribute("description", topicDTO.getDescription());
         model.addAttribute("tag", topicDTO.getTag());
         model.addAttribute("id", topicDTO.getId());
+        model.addAttribute("tags", tagHelper.getTags());
         return "publish";
     }
 
@@ -48,6 +56,7 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tags", tagHelper.getTags());
 
         // if there's no title name, submission fails
         if (title == null || title == "") {
