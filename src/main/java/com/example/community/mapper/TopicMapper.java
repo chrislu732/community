@@ -24,11 +24,11 @@ public interface TopicMapper {
     @Select("select * from topic where id = #{id}")
     Topic findByID(@Param("id") Long id);
 
-    @Select("select * from topic limit #{offset}, #{size}")
-    List<Topic> list(@Param("offset") Integer offset, @Param("size") Integer size);
+    @Select("select id from topic limit #{offset}, #{size}")
+    List<Long> list(@Param("offset") Integer offset, @Param("size") Integer size);
 
-    @Select("select * from topic where author = #{id} limit #{offset}, #{size}")
-    List<Topic> listById(@Param("id") Long id, @Param("offset") Integer offset, @Param("size") Integer size);
+    @Select("select id from topic where author = #{id} limit #{offset}, #{size}")
+    List<Long> listById(@Param("id") Long id, @Param("offset") Integer offset, @Param("size") Integer size);
 
     @Select("select count(1) from topic")
     Integer count();

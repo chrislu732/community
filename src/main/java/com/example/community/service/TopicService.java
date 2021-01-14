@@ -61,45 +61,9 @@ public class TopicService {
         return topicDTO;
     }
 
-    // get pagination dto
-    public PaginationDTO getPaginationDTO(Integer page, Integer size) {
-        // count the number of pages
-        Integer totalCount = topicMapper.count();
-        Integer totalPage;
-        if (totalCount == 0) {
-            totalPage = 1;
-        }else if (totalCount % size == 0) {
-            totalPage = totalCount / size;
-        }else {
-            totalPage = totalCount / size + 1;
-        }
-        // check if page is valid
-        if (page < 1) {
-            page = 1;
-        }else if (page > totalPage) {
-            page = totalPage;
-        }
-        // set properties for pagination dto
-        PaginationDTO paginationDTO = new PaginationDTO();
-        paginationDTO.setPagination(page, totalPage);
-        // get topic dto
-        Integer offset = size * (page - 1);
-        List<Topic> topics = topicMapper.list(offset, size);
-        List<TopicDTO> topicDTOS = topics.stream()
-                .map(topic -> {
-                    User user = userMapper.findByID(topic.getAuthor());
-                    TopicDTO topicDTO = new TopicDTO();
-                    BeanUtils.copyProperties(topic, topicDTO);
-                    topicDTO.setUser(user);
-                    return topicDTO;
-                }).collect(Collectors.toList());
-        paginationDTO.setTopicDTOS(topicDTOS);
-        return paginationDTO;
-    }
-
     public PaginationDTO getPaginationDTO(Long id, Integer page, Integer size) {
         // count the number of pages
-        Integer totalCount = topicMapper.countById(id);
+        Integer totalCount = id == null ? topicMapper.count() : topicMapper.countById(id);
         Integer totalPage;
         if (totalCount == 0) {
             totalPage = 1;
@@ -119,15 +83,10 @@ public class TopicService {
         paginationDTO.setPagination(page, totalPage);
         // get topic dto
         Integer offset = size * (page - 1);
-        List<Topic> topics = topicMapper.listById(id, offset, size);
-        List<TopicDTO> topicDTOS = topics.stream()
-                .map(topic -> {
-                    User user = userMapper.findByID(topic.getAuthor());
-                    TopicDTO topicDTO = new TopicDTO();
-                    BeanUtils.copyProperties(topic, topicDTO);
-                    topicDTO.setUser(user);
-                    return topicDTO;
-                }).collect(Collectors.toList());
+        List<Long> topicIds = id == null ? topicMapper.list(offset, size) : topicMapper.listById(id, offset, size);
+        List<TopicDTO> topicDTOS = topicIds.stream()
+                .map(this::getTopicDTO)
+                .collect(Collectors.toList());
         paginationDTO.setTopicDTOS(topicDTOS);
         return paginationDTO;
     }
