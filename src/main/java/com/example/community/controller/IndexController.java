@@ -1,6 +1,7 @@
 package com.example.community.controller;
 
 import com.example.community.dto.PaginationDTO;
+import com.example.community.dto.TopicDTO;
 import com.example.community.helper.AvatarHelper;
 import com.example.community.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class IndexController {
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "5") Integer size) {
         // collect topic list from service
-        PaginationDTO pagination = topicService.getPaginationDTO(null, page, size);
+        PaginationDTO<TopicDTO> pagination = topicService.getPaginationDTO(null, page, size);
         model.addAttribute("pagination", pagination);
         return "index";
     }

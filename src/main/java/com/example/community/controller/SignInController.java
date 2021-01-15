@@ -1,14 +1,13 @@
 package com.example.community.controller;
 
-import com.example.community.model.User;
 import com.example.community.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ public class SignInController {
         model.addAttribute("userName", userName);
 
         // if there's no user name, submission fails
-        if (userName == null || userName == "") {
+        if (StringUtils.isBlank(userName)) {
             model.addAttribute("error", "no user name");
             return "sign_in";
         }

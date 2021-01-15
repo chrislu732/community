@@ -3,13 +3,15 @@ package com.example.community.service;
 import com.example.community.dto.CommentCreateDTO;
 import com.example.community.dto.CommentDTO;
 import com.example.community.dto.ResultDTO;
-import com.example.community.dto.TopicDTO;
 import com.example.community.enums.CommentTypeEnum;
+import com.example.community.enums.NotificationTypeEnum;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.mapper.CommentMapper;
+import com.example.community.mapper.NotificationMapper;
 import com.example.community.mapper.TopicMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.model.Comment;
+import com.example.community.model.Notification;
 import com.example.community.model.Topic;
 import com.example.community.model.User;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +33,8 @@ public class CommentService {
     TopicMapper topicMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    NotificationMapper notificationMapper;
 
     // insert comment into the database
     public ResultDTO commentPost(CommentCreateDTO commentCreateDTO, User user) {
@@ -39,11 +43,11 @@ public class CommentService {
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(comment.getGmtCreate());
         comment.setCommentator(user.getId());
-        return insertComment(comment);
+        return insertComment(comment, user);
     }
 
     @Transactional
-    public ResultDTO insertComment(Comment comment) {
+    public ResultDTO insertComment(Comment comment, User user) {
         // check parent
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             return ResultDTO.errorOf(CustomizeErrorCode.PARENT_NOT_FOUND);
@@ -57,14 +61,18 @@ public class CommentService {
             return ResultDTO.errorOf(CustomizeErrorCode.TYPE_NOT_FOUND);
         }
         // comment of the topic
-        if (comment.getType() == CommentTypeEnum.TOPIC.getType()) {
+        if (comment.getType().equals(CommentTypeEnum.TOPIC.getType())) {
             Topic topic = topicMapper.findByID(comment.getParentId());
             // check if the topic is available
             if (topic == null) {
                 return ResultDTO.errorOf(CustomizeErrorCode.TOPIC_NOT_FOUND);
             }
+            // create new comment
             commentMapper.create(comment);
+            // update comment count
             topicMapper.updateCommentCount(topic.getId());
+            // create new notification
+            createNotification(user, topic.getAuthor(), topic, NotificationTypeEnum.REPLY_TOPIC.getType());
         // comment of the other comment
         }else {
             Comment dbComment = commentMapper.findByID(comment.getParentId());
@@ -72,10 +80,32 @@ public class CommentService {
             if (dbComment == null) {
                 return ResultDTO.errorOf(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            Topic topic = topicMapper.findByID(dbComment.getParentId());
+            // check if the topic is available
+            if (topic == null) {
+                return ResultDTO.errorOf(CustomizeErrorCode.TOPIC_NOT_FOUND);
+            }
+            // create new comment
             commentMapper.create(comment);
+            // update comment count
             commentMapper.updateCommentCount(dbComment.getId());
+            // create new notification
+            createNotification(user, dbComment.getCommentator(), topic, NotificationTypeEnum.REPLY_COMMENT.getType());
         }
         return null;
+    }
+
+    // create new notification
+    private void createNotification(User user, Long receiver, Topic topic, Integer type) {
+        Notification notification = new Notification();
+        notification.setNotifier(user.getId());
+        notification.setNotifierName(user.getName());
+        notification.setReceiver(receiver);
+        notification.setOuterId(topic.getId());
+        notification.setOuterTitle(topic.getTitle());
+        notification.setType(type);
+        notification.setGmtCreate(System.currentTimeMillis());
+        notificationMapper.create(notification);
     }
 
     //list all comments under the topic
@@ -87,13 +117,13 @@ public class CommentService {
         }
         // get all user and distinct them
         List<Long> userId = comments.stream()
-                .map(comment -> comment.getCommentator())
+                .map(Comment::getCommentator)
                 .distinct()
                 .collect(Collectors.toList());
         // get all user id, then develop a map for users
         List<User> users = userMapper.findByIDList(userId);
         Map<Long, User> userMap = users.stream()
-                .collect(Collectors.toMap(user -> user.getId(), user -> user));
+                .collect(Collectors.toMap(User::getId, user -> user));
         // develop commentDTO
         List<CommentDTO> commentDTOS = comments.stream()
                 .map(comment -> {

@@ -65,9 +65,9 @@ public class TopicService {
     }
 
     // get pagination for the website
-    public PaginationDTO getPaginationDTO(Long id, Integer page, Integer size) {
+    public PaginationDTO<TopicDTO> getPaginationDTO(Long id, Integer page, Integer size) {
         // count the number of pages
-        Integer totalCount = id == null ? topicMapper.count() : topicMapper.countById(id);
+        Integer totalCount = id == null ? topicMapper.count() : topicMapper.countByAuthor(id);
         Integer totalPage;
         if (totalCount == 0) {
             totalPage = 1;
@@ -83,15 +83,15 @@ public class TopicService {
             page = totalPage;
         }
         // set properties for pagination dto
-        PaginationDTO paginationDTO = new PaginationDTO();
+        PaginationDTO<TopicDTO> paginationDTO = new PaginationDTO<>();
         paginationDTO.setPagination(page, totalPage);
         // get topic dto
         Integer offset = size * (page - 1);
-        List<Long> topicIds = id == null ? topicMapper.list(offset, size) : topicMapper.listById(id, offset, size);
+        List<Long> topicIds = id == null ? topicMapper.list(offset, size) : topicMapper.listByAuthor(id, offset, size);
         List<TopicDTO> topicDTOS = topicIds.stream()
                 .map(this::getTopicDTO)
                 .collect(Collectors.toList());
-        paginationDTO.setTopicDTOS(topicDTOS);
+        paginationDTO.setElementDTOs(topicDTOS);
         return paginationDTO;
     }
 

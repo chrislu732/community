@@ -6,11 +6,13 @@ public enum CustomizeErrorCode {
     PARENT_NOT_FOUND(2002, "No topic or comment found"),
     USER_NOT_FOUND(2003, "User doesn't exist or hasn't sign in"),
     SYSTEM_ERROR(2004, "Unexpected Error"),
-    TYPE_NOT_FOUND(2005, "Comment type is invalid"),
+    TYPE_NOT_FOUND(2005, "type is invalid"),
     COMMENT_NOT_FOUND(2006, "Comment doesn't exist"),
     CONTENT_IS_NULL(2007, "Content cannot be null"),
-    SIGN_IN_ERROR(2008, "sign in failed"),
-    URL_ERROR(2009, "wrong url");
+    SIGN_IN_ERROR(2008, "Sign in failed"),
+    URL_ERROR(2009, "Wrong url"),
+    NOTIFICATION_NOT_FOUND(20010, "Notification doesn't found"),
+    UNMATCHED_USER(20011, "The user is unmatched");
 
     private String message;
     private Integer code;

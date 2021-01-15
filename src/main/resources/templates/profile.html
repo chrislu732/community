@@ -18,7 +18,8 @@
             <!--topic list-->
             <h2><span th:text="${sectionName}"></span></h2>
             <hr>
-            <div class="media" th:each="topic : ${pagination.topicDTOS}">
+            <!--topic section-->
+            <div class="media" th:each="topic : ${pagination.elementDTOs}" th:if="${section} == 'topics'">
                 <div class="media-left">
                     <a href="#">
                         <img class="avatar-min img-rounded" th:src="${topic.user.avatarUrl}">
@@ -34,6 +35,16 @@
                     <span class="text-desc">
                         <span th:text="${topic.commentCount}"></span> comments · <span th:text="${topic.viewCount}"></span> views · <span th:text="${#dates.format(topic.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
                     </span>
+                </div>
+            </div>
+            <!--notification section-->
+            <div class="media" th:each="notification : ${pagination.elementDTOs}" th:if="${section} == 'comments'">
+                <div class="media-body">
+                    <p class="media-heading">
+                        <span th:text="${notification.notifierName + ' ' + notification.typeName + ' '}"></span>
+                        <a th:href="@{'/notification/' + ${notification.id}}" th:text="${notification.outerTitle}"></a>
+                        <span class="label label-danger" th:if="${notification.status == 0}">Unread</span>
+                    </p>
                 </div>
             </div>
             <!--page navigation-->
@@ -70,9 +81,11 @@
             <div class="list-group section">
                 <a href="/profile/topics" th:class="${section == 'topics'}? 'active list-group-item' : 'list-group-item'">
                     My Topics
-                    <span class="badge">10</span>
                 </a>
-                <a href="/profile/comments" th:class="${section == 'comments'}? 'active list-group-item' : 'list-group-item'">My Comments</a>
+                <a href="/profile/comments" th:class="${section == 'comments'}? 'active list-group-item' : 'list-group-item'">
+                    My Comments
+                    <span class="badge" th:text="${session.unreadCount}"></span>
+                </a>
             </div>
         </div>
     </div>

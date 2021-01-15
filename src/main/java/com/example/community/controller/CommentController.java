@@ -20,7 +20,7 @@ public class CommentController {
     CommentService commentService;
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public ResultDTO post(@RequestBody CommentCreateDTO commentCreateDTO,
+    public ResultDTO postComment(@RequestBody CommentCreateDTO commentCreateDTO,
                           HttpServletRequest request) {
         // get user information from the session
         User user = (User) request.getSession().getAttribute("user");
@@ -33,7 +33,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
-    public List<CommentDTO> post(@PathVariable(name = "id") Long id) {
+    public List<CommentDTO> postSubComment(@PathVariable(name = "id") Long id) {
         // get user information from the session
         List<CommentDTO> commentDTOS = commentService.getCommentByTopic(id, CommentTypeEnum.COMMENT);
         return commentDTOS;

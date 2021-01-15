@@ -19,5 +19,5 @@ public interface CommentMapper {
     List<Comment> findByParentAndType(@Param("parentId") Long parentId, @Param("type") Integer type);
 
     @Update("update comment set comment_count = comment_count + 1 where id = #{id}")
-    int updateCommentCount(@Param("id") Long id);
+    Integer updateCommentCount(@Param("id") Long id);
 }

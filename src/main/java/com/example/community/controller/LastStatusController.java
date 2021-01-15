@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class LastStatusController {
     @RequestMapping(value = "/last_status", method = RequestMethod.POST)
-    public ResultDTO post(@RequestBody LastStatusDTO lastStatusDTO,
+    public ResultDTO postLastStatus(@RequestBody LastStatusDTO lastStatusDTO,
                           HttpServletRequest request) {
         if (lastStatusDTO == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.SIGN_IN_ERROR);

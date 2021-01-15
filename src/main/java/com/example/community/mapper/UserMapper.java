@@ -15,7 +15,7 @@ public interface UserMapper {
     void insert(User user);
 
     @Update("update community_user set name = #{name}, gmt_modified = #{gmtModified}, bio = #{bio}, avatar_url = #{avatarUrl} where id = #{id}")
-    int update(User user);
+    Integer update(User user);
 
     @Select("select * from community_user where token = #{token}")
     User findByToken(@Param("token") String token);
