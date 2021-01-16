@@ -1,6 +1,7 @@
 package com.example.community.service;
 
 import com.example.community.dto.NotificationDTO;
+import com.example.community.dto.PageDTO;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.enums.NotificationStatusEnum;
 import com.example.community.enums.NotificationTypeEnum;
@@ -37,26 +38,13 @@ public class NotificationService {
     public PaginationDTO<NotificationDTO> getPaginationDTO(Long id, Integer page, Integer size) {
         // count the number of pages
         Integer totalCount = notificationMapper.countByReceiver(id);
-        Integer totalPage;
-        if (totalCount == 0) {
-            totalPage = 1;
-        }else if (totalCount % size == 0) {
-            totalPage = totalCount / size;
-        }else {
-            totalPage = totalCount / size + 1;
-        }
-        // check if page is valid
-        if (page < 1) {
-            page = 1;
-        }else if (page > totalPage) {
-            page = totalPage;
-        }
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setProperties(page, size, totalCount);
         // set properties for pagination dto
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
-        paginationDTO.setPagination(page, totalPage);
+        paginationDTO.setPagination(pageDTO.getPage(), pageDTO.getTotalPage());
         // get notification dto
-        Integer offset = size * (page - 1);
-        List<Long> notificationIds = notificationMapper.ListByReceiver(id, offset, size);
+        List<Long> notificationIds = notificationMapper.ListByReceiver(id, pageDTO.getOffset(), size);
         List<NotificationDTO> notificationDTOS = notificationIds.stream()
                 .map(this::getNotificationDTO)
                 .collect(Collectors.toList());

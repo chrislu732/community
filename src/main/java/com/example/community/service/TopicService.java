@@ -1,5 +1,6 @@
 package com.example.community.service;
 
+import com.example.community.dto.PageDTO;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.TopicDTO;
 import com.example.community.exception.CustomizeErrorCode;
@@ -65,29 +66,37 @@ public class TopicService {
     }
 
     // get pagination for the website
-    public PaginationDTO<TopicDTO> getPaginationDTO(Long id, Integer page, Integer size) {
-        // count the number of pages
-        Integer totalCount = id == null ? topicMapper.count() : topicMapper.countByAuthor(id);
-        Integer totalPage;
-        if (totalCount == 0) {
-            totalPage = 1;
-        }else if (totalCount % size == 0) {
-            totalPage = totalCount / size;
-        }else {
-            totalPage = totalCount / size + 1;
-        }
-        // check if page is valid
-        if (page < 1) {
-            page = 1;
-        }else if (page > totalPage) {
-            page = totalPage;
-        }
-        // set properties for pagination dto
+    public PaginationDTO<TopicDTO> getPaginationDTO(Long id, Integer page, Integer size, String search) {
         PaginationDTO<TopicDTO> paginationDTO = new PaginationDTO<>();
-        paginationDTO.setPagination(page, totalPage);
-        // get topic dto
-        Integer offset = size * (page - 1);
-        List<Long> topicIds = id == null ? topicMapper.list(offset, size) : topicMapper.listByAuthor(id, offset, size);
+        List<Long> topicIds;
+        // no search
+        if (StringUtils.isBlank(search)) {
+            // get page  properties
+            Integer totalCount = id == null ? topicMapper.count() : topicMapper.countByAuthor(id);
+            PageDTO pageDTO = new PageDTO();
+            pageDTO.setProperties(page, size, totalCount);
+            // set properties for pagination dto
+            paginationDTO.setPagination(pageDTO.getPage(), pageDTO.getTotalPage());
+            // get topic dto
+            topicIds = id == null ? topicMapper.list(pageDTO.getOffset(), size) : topicMapper.listByAuthor(id, pageDTO.getOffset(), size);
+            // user is searching
+        } else {
+            // edit the titles for search
+            String[] titlesArray = StringUtils.split(search);
+            String titles = Arrays.stream(titlesArray)
+                    .map(StringUtils::strip)
+                    .filter(StringUtils::isNotBlank)
+                    .collect(Collectors.joining("|"));
+            // get page  properties
+            Integer totalCount = topicMapper.countBySearch(titles);
+            PageDTO pageDTO = new PageDTO();
+            pageDTO.setProperties(page, size, totalCount);
+            // set properties for pagination dto
+            paginationDTO.setPagination(pageDTO.getPage(), pageDTO.getTotalPage());
+            // get topic dto
+            topicIds = topicMapper.listBySearch(titles, pageDTO.getOffset(), size);
+        }
+        // get the list of topics
         List<TopicDTO> topicDTOS = topicIds.stream()
                 .map(this::getTopicDTO)
                 .collect(Collectors.toList());

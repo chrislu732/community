@@ -44,7 +44,7 @@ public class ProfileController {
             model.addAttribute("section", "topics");
             model.addAttribute("sectionName", "My Topics");
             // collect topic list from service
-            PaginationDTO<TopicDTO> pagination = topicService.getPaginationDTO(user.getId(), page, size);
+            PaginationDTO<TopicDTO> pagination = topicService.getPaginationDTO(user.getId(), page, size, "");
             model.addAttribute("pagination", pagination);
         }else if ("comments".equals(action)) {
             // comments section

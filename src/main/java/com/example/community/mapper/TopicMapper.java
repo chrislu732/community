@@ -30,11 +30,17 @@ public interface TopicMapper {
     @Select("select id from topic where author = #{author} order by gmt_create desc limit #{offset}, #{size}")
     List<Long> listByAuthor(@Param("author") Long author, @Param("offset") Integer offset, @Param("size") Integer size);
 
+    @Select("select id from topic where title regexp #{titles} order by gmt_create desc limit #{offset}, #{size}")
+    List<Long> listBySearch(@Param("titles") String titles, @Param("offset") Integer offset, @Param("size") Integer size);
+
     @Select("select count(1) from topic")
     Integer count();
 
     @Select("select count(1) from topic where author = #{author}")
     Integer countByAuthor(@Param("author") Long author);
+
+    @Select("select count(1) from topic where title regexp #{titles}")
+    Integer countBySearch(@Param("titles") String titles);
 
     @Select("select id from topic where id != #{id} and tag regexp #{tags}")
     List<Long> findRelated(@Param("id") Long id, @Param("tags") String tags);
