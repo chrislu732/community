@@ -7,6 +7,10 @@ body {
     margin: 30px;
 }
 
+.nav-search {
+    width: 500px;
+}
+
 .profile .section {
     margin-top: 15px;
 }
@@ -143,6 +147,11 @@ body {
 .hr-size-2 {
     margin-top: 0;
     margin-bottom: 5px;
+}
+
+.footer {
+    padding: 5px 40%;
+    color: #6A6A6A;
 }
 
 
