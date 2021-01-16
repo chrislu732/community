@@ -6,6 +6,7 @@ import com.example.community.dto.TopicDTO;
 import com.example.community.model.User;
 import com.example.community.service.NotificationService;
 import com.example.community.service.TopicService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 // profile page
 @Controller
+@Slf4j
 public class ProfileController {
     @Autowired
     private TopicService topicService;
@@ -35,6 +37,7 @@ public class ProfileController {
         // get user information from the session
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
+            log.error("fail to get user");
             return "redirect:/";
         }
 
@@ -64,6 +67,7 @@ public class ProfileController {
             if (preUrl != null) {
                 return "redirect:" + preUrl;
             }
+            log.error("unexpected action");
             return "redirect:/";
         }
         return "profile";

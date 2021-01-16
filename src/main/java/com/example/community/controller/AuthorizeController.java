@@ -5,6 +5,7 @@ import com.example.community.dto.GithubUser;
 import com.example.community.provider.GithubProvider;
 import com.example.community.service.GithubService;
 import com.example.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 // the page after signing in
 @Controller
+@Slf4j
 public class AuthorizeController {
     @Autowired
     private GithubService githubService;
@@ -41,6 +43,9 @@ public class AuthorizeController {
             String token = userService.createOrUpdateUser(githubUser);
             // add a "token" cookie
             response.addCookie(new Cookie("token", token));
+        } else {
+            log.error("fail to get github user, {}", githubUser);
+            return "redirect:/";
         }
 
         // check the last page before signing in
