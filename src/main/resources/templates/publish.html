@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="/css/community.css?v=0111" />
+    <link rel="stylesheet" href="/css/editormd.css" />
     <script src="/js/jquery-3.5.1.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
 </head>
 <body>
     <div th:insert="~{navigation :: nav}"></div>
@@ -23,10 +25,21 @@
                         <label for="title">Topic Name</label>
                         <input type="text" class="form-control" th:value="${title}" id="title" name="title" placeholder="Topic Name">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="topic-editor">
                         <label for="description">Description</label>
-                        <textarea class="form-control" name="description" th:text="${description}" id="description" cols="30" rows="10"></textarea>
+                        <textarea class="form-control" name="description" th:text="${description}" id="description" style="display: none"></textarea>
                     </div>
+                    <script type="text/javascript">
+                        $(function() {
+                            var editor = editormd("topic-editor", {
+                                width  : "100%",
+                                height : 500,
+                                path : "js/lib/",
+                                delay : 0,
+                                placeholder : "Write description here"
+                            });
+                        });
+                    </script>
                     <div class="form-group">
                         <label for="tag">Add Tags</label>
                         <input type="text" class="form-control" th:value="${tag}" id="tag" onclick="showTags()"

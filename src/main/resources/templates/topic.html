@@ -6,10 +6,14 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="/css/community.css?v=0111" />
+    <link rel="stylesheet" href="/css/editormd.preview.min.css">
     <script src="/js/jquery-3.5.1.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/moment.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
+    <script src="/js/lib/marked.min.js"></script>
+    <script src="/js/lib/prettify.min.js"></script>
 </head>
 <body onload="savePath()">
 <div th:insert="~{navigation :: nav}"></div>
@@ -25,7 +29,14 @@
                     Views : <span th:text="${topic.viewCount}"></span>
                 </span>
                 <hr class="comment-sp">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${topic.description}"></div>
+                <div id="topic-view">
+                    <textarea style="display:none;" th:text="${topic.description}"></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        editormd.markdownToHTML("topic-view", {});
+                    });
+                </script>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div th:if="${session.user != null && session.user.id == topic.author}">
                     <a th:href="@{'/publish/' + ${topic.id}}" class="btn-edit">
