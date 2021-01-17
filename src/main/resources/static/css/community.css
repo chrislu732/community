@@ -50,13 +50,13 @@ body {
     padding-top: 15px;
 }
 
-.topic .comment .icon {
+.topic .icon {
     margin-right: 6px;
     font-size: 15px;
     cursor: pointer;
 }
 
-.topic .comment .icon:hover {
+.topic .icon:hover {
     color: #499ef3;
 }
 
@@ -154,4 +154,6 @@ body {
     color: #6A6A6A;
 }
 
-
+.clicked-btn {
+    color: #499ef3;
+}

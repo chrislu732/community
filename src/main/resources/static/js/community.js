@@ -10,7 +10,6 @@ function sendSubComment(btn) {
     postCom(commentId, content, 2);
 }
 
-
 function postCom(parentId, content, type) {
     $.ajax({
         type: "POST",
@@ -26,6 +25,35 @@ function postCom(parentId, content, type) {
                 location.reload();
             }else {
                 alert(response.message);
+            }
+            console.log(response);
+        },
+        dataType: "json"
+    });
+}
+
+function likeTopic(btn) {
+    var liked = btn.getAttribute("data-id");
+    postLike(liked, 1);
+}
+
+function likeComment(btn) {
+    var liked = btn.getAttribute("data-id");
+    postLike(liked, 2);
+}
+
+function postLike(liked, type) {
+    $.ajax({
+        type: "POST",
+        url: "/like",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "liked": liked,
+            "type": type
+        }),
+        success: function(response) {
+            if (response.code == 200) {
+                location.reload();
             }
             console.log(response);
         },

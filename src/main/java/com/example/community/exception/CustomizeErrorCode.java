@@ -12,7 +12,8 @@ public enum CustomizeErrorCode {
     SIGN_IN_ERROR(2008, "Sign in failed"),
     URL_ERROR(2009, "Wrong url"),
     NOTIFICATION_NOT_FOUND(20010, "Notification doesn't found"),
-    UNMATCHED_USER(20011, "The user is unmatched");
+    UNMATCHED_USER(20011, "The user is unmatched"),
+    LIKE_MORE_THAN_ONCE(20012, "Can't like more than once");
 
     private String message;
     private Integer code;

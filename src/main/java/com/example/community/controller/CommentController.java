@@ -28,14 +28,12 @@ public class CommentController {
             return ResultDTO.errorOf(CustomizeErrorCode.USER_NOT_FOUND);
         }
 
-        ResultDTO resultDTO = commentService.commentPost(commentCreateDTO, user);
-        return resultDTO == null ? ResultDTO.okOf() : resultDTO;
+        return commentService.commentPost(commentCreateDTO, user);
     }
 
     @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
     public List<CommentDTO> postSubComment(@PathVariable(name = "id") Long id) {
         // get user information from the session
-        List<CommentDTO> commentDTOS = commentService.getCommentByTopic(id, CommentTypeEnum.COMMENT);
-        return commentDTOS;
+        return commentService.getCommentByTopic(id, CommentTypeEnum.COMMENT);
     }
 }

@@ -26,7 +26,8 @@
                 <span class="text-desc">
                     Author: <span th:text="${topic.user.name}"></span> |
                     Created Date: <span th:text="${#dates.format(topic.gmtCreate, 'yyyy-MM-dd')}"></span> |
-                    Views : <span th:text="${topic.viewCount}"></span>
+                    Views : <span th:text="${topic.viewCount}"></span> |
+                    Comments : <span th:text="${topic.commentCount}"></span>
                 </span>
                 <hr class="comment-sp">
                 <div id="topic-view">
@@ -38,8 +39,12 @@
                     });
                 </script>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div th:if="${session.user != null && session.user.id == topic.author}">
-                    <a th:href="@{'/publish/' + ${topic.id}}" class="btn-edit">
+                <div>
+                    <span class="icon" th:data-id="${topic.id}" onclick="likeTopic(this)" th:unless="${session.user == null}">
+                        <span class="glyphicon glyphicon-thumbs-up" id="topic-like"></span>
+                        <span th:text="${topic.likeCount}"></span>
+                    </span>
+                    <a th:href="@{'/publish/' + ${topic.id}}" class="btn-edit" th:if="${session.user != null && session.user.id == topic.author}">
                         <span class="glyphicon glyphicon-edit"></span>  Edit
                     </a>
                     <hr class="hr-size-2">
@@ -65,7 +70,10 @@
                         </h5>
                         <div th:text="${comment.content}"></div>
                         <div class="comment">
-                            <span class="glyphicon glyphicon-thumbs-up icon" aria-hidden="true"></span>
+                            <span class="icon" th:data-id="${comment.id}" onclick="likeComment(this)">
+                                <span class="glyphicon glyphicon-thumbs-up" th:id="${'comment-' + comment.id + '-like'}"></span>
+                                <span th:text="${comment.likeCount}"></span>
+                            </span>
                             <span class="icon" th:data-parentId="${comment.id}" onclick="subComments(this)">
                                 <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
                                 <span th:text="${comment.commentCount}"></span>

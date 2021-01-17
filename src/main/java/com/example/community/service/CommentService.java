@@ -92,7 +92,7 @@ public class CommentService {
             // create new notification
             createNotification(user, dbComment.getCommentator(), topic, NotificationTypeEnum.REPLY_COMMENT.getType());
         }
-        return null;
+        return ResultDTO.okOf();
     }
 
     // create new notification

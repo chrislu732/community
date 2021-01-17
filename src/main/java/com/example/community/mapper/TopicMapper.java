@@ -21,6 +21,9 @@ public interface TopicMapper {
     @Update("update topic set comment_count = comment_count + 1 where id = #{id}")
     Integer updateCommentCount(@Param("id") Long id);
 
+    @Update("update topic set like_count = like_count + 1 where id = #{id}")
+    Integer updateLikeCount(@Param("id") Long id);
+
     @Select("select * from topic where id = #{id}")
     Topic findByID(@Param("id") Long id);
 

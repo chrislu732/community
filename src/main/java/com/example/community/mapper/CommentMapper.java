@@ -20,4 +20,7 @@ public interface CommentMapper {
 
     @Update("update comment set comment_count = comment_count + 1 where id = #{id}")
     Integer updateCommentCount(@Param("id") Long id);
+
+    @Update("update comment set like_count = like_count + 1 where id = #{id}")
+    Integer updateLikeCount(@Param("id") Long id);
 }
