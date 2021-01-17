@@ -33,22 +33,22 @@ function postCom(parentId, content, type) {
 }
 
 function likeTopic(btn) {
-    var liked = btn.getAttribute("data-id");
-    postLike(liked, 1);
+    var parentId = btn.getAttribute("data-id");
+    postLike(parentId, 1);
 }
 
 function likeComment(btn) {
-    var liked = btn.getAttribute("data-id");
-    postLike(liked, 2);
+    var parentId = btn.getAttribute("data-id");
+    postLike(parentId, 2);
 }
 
-function postLike(liked, type) {
+function postLike(parentId, type) {
     $.ajax({
         type: "POST",
         url: "/like",
         contentType: "application/json",
         data: JSON.stringify({
-            "liked": liked,
+            "parentId": parentId,
             "type": type
         }),
         success: function(response) {

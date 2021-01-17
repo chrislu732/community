@@ -3,6 +3,7 @@ package com.example.community.service;
 import com.example.community.dto.PageDTO;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.TopicDTO;
+import com.example.community.dto.TopicTitleDTO;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.exception.CustomizeException;
 import com.example.community.mapper.TopicMapper;
@@ -65,6 +66,19 @@ public class TopicService {
         return topicDTO;
     }
 
+    // get topic dto instance
+    public TopicTitleDTO getTopicTitleDTO(Long id, Integer score) {
+        Topic topic = topicMapper.findByID(id);
+        if (topic == null) {
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
+        }
+        TopicTitleDTO topicTitleDTO = new TopicTitleDTO();
+        topicTitleDTO.setTopicId(id);
+        topicTitleDTO.setTitle(topic.getTitle());
+        topicTitleDTO.setScore(score);
+        return topicTitleDTO;
+    }
+
     // get pagination for the website
     public PaginationDTO<TopicDTO> getPaginationDTO(Long id, Integer page, Integer size, String search) {
         PaginationDTO<TopicDTO> paginationDTO = new PaginationDTO<>();
@@ -113,7 +127,7 @@ public class TopicService {
     }
 
     // get the list of related topics
-    public List<TopicDTO> getRelatedTopic(TopicDTO topicDTO) {
+    public List<TopicTitleDTO> getRelatedTopic(TopicDTO topicDTO, Integer size) {
         if (StringUtils.isBlank(topicDTO.getTag())) {
             return new ArrayList<>();
         }
@@ -123,10 +137,10 @@ public class TopicService {
                 .map(StringUtils::strip)
                 .filter(StringUtils::isNotBlank)
                 .collect(Collectors.joining("|"));
-        List<Long> topicIds = topicMapper.findRelated(topicDTO.getId(), tags);
-        List<TopicDTO> topicDTOS = topicIds.stream()
-                .map(this::getTopicDTO)
+        List<Long> topicIds = topicMapper.findRelated(topicDTO.getId(), tags, size);
+        List<TopicTitleDTO> topicTitleDTOS = topicIds.stream()
+                .map(topicId -> getTopicTitleDTO(topicId, 0))
                 .collect(Collectors.toList());
-        return topicDTOS;
+        return topicTitleDTOS;
     }
 }

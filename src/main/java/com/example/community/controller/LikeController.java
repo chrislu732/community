@@ -27,6 +27,6 @@ public class LikeController {
         if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.USER_NOT_FOUND);
         }
-        return likeService.addLike(likeCreateDTO, user);
+        return likeService.likePost(likeCreateDTO, user);
     }
 }

@@ -64,13 +64,6 @@ body {
     margin-bottom: 5px;
 }
 
-.topic .related-topics {
-    padding-left: 0;
-    line-height: 20px;
-    font-size: 15px;
-    list-style: none;
-}
-
 .sign-in {
     background-color: white;
     margin-top: 200px;
@@ -156,4 +149,11 @@ body {
 
 .clicked-btn {
     color: #499ef3;
+}
+
+.topic-list {
+    padding-left: 0;
+    line-height: 20px;
+    font-size: 15px;
+    list-style: none;
 }

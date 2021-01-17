@@ -9,6 +9,7 @@ import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.exception.CustomizeException;
 import com.example.community.mapper.NotificationMapper;
 import com.example.community.model.Notification;
+import com.example.community.model.Topic;
 import com.example.community.model.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,19 @@ import java.util.stream.Collectors;
 public class NotificationService {
     @Autowired
     NotificationMapper notificationMapper;
+
+    // create new notification
+    public void createNotification(User user, Long receiver, Topic topic, Integer type) {
+        Notification notification = new Notification();
+        notification.setNotifier(user.getId());
+        notification.setNotifierName(user.getName());
+        notification.setReceiver(receiver);
+        notification.setOuterId(topic.getId());
+        notification.setOuterTitle(topic.getTitle());
+        notification.setType(type);
+        notification.setGmtCreate(System.currentTimeMillis());
+        notificationMapper.create(notification);
+    }
 
     // get notification dto instance
     public NotificationDTO getNotificationDTO(Long id) {

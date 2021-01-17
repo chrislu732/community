@@ -3,7 +3,7 @@ package com.example.community.service;
 import com.example.community.dto.CommentCreateDTO;
 import com.example.community.dto.CommentDTO;
 import com.example.community.dto.ResultDTO;
-import com.example.community.enums.CommentTypeEnum;
+import com.example.community.enums.TypeEnum;
 import com.example.community.enums.NotificationTypeEnum;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.mapper.CommentMapper;
@@ -35,6 +35,8 @@ public class CommentService {
     UserMapper userMapper;
     @Autowired
     NotificationMapper notificationMapper;
+    @Autowired
+    NotificationService notificationService;
 
     // insert comment into the database
     public ResultDTO commentPost(CommentCreateDTO commentCreateDTO, User user) {
@@ -57,11 +59,11 @@ public class CommentService {
             return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_NULL);
         }
         // check the type of the comment
-        if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
+        if (comment.getType() == null || !TypeEnum.isExist(comment.getType())) {
             return ResultDTO.errorOf(CustomizeErrorCode.TYPE_NOT_FOUND);
         }
         // comment of the topic
-        if (comment.getType().equals(CommentTypeEnum.TOPIC.getType())) {
+        if (comment.getType().equals(TypeEnum.TOPIC.getType())) {
             Topic topic = topicMapper.findByID(comment.getParentId());
             // check if the topic is available
             if (topic == null) {
@@ -72,7 +74,7 @@ public class CommentService {
             // update comment count
             topicMapper.updateCommentCount(topic.getId());
             // create new notification
-            createNotification(user, topic.getAuthor(), topic, NotificationTypeEnum.REPLY_TOPIC.getType());
+            notificationService.createNotification(user, topic.getAuthor(), topic, NotificationTypeEnum.REPLY_TOPIC.getType());
         // comment of the other comment
         }else {
             Comment dbComment = commentMapper.findByID(comment.getParentId());
@@ -90,28 +92,17 @@ public class CommentService {
             // update comment count
             commentMapper.updateCommentCount(dbComment.getId());
             // create new notification
-            createNotification(user, dbComment.getCommentator(), topic, NotificationTypeEnum.REPLY_COMMENT.getType());
+            notificationService.createNotification(user, dbComment.getCommentator(), topic, NotificationTypeEnum.REPLY_COMMENT.getType());
         }
         return ResultDTO.okOf();
     }
 
-    // create new notification
-    private void createNotification(User user, Long receiver, Topic topic, Integer type) {
-        Notification notification = new Notification();
-        notification.setNotifier(user.getId());
-        notification.setNotifierName(user.getName());
-        notification.setReceiver(receiver);
-        notification.setOuterId(topic.getId());
-        notification.setOuterTitle(topic.getTitle());
-        notification.setType(type);
-        notification.setGmtCreate(System.currentTimeMillis());
-        notificationMapper.create(notification);
-    }
+
 
     //list all comments under the topic
-    public List<CommentDTO> getCommentByTopic(Long id, CommentTypeEnum commentTypeEnum) {
+    public List<CommentDTO> getCommentByTopic(Long id, TypeEnum typeEnum) {
         //get all comments
-        List<Comment> comments = commentMapper.findByParentAndType(id, commentTypeEnum.getType());
+        List<Comment> comments = commentMapper.findByParentAndType(id, typeEnum.getType());
         if (comments.size() == 0) {
             return new ArrayList<>();
         }

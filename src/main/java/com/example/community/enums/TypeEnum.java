@@ -1,12 +1,12 @@
 package com.example.community.enums;
 
-public enum CommentTypeEnum {
+public enum TypeEnum {
     TOPIC(1),
     COMMENT(2);
 
     private Integer type;
 
-    CommentTypeEnum(Integer type) {
+    TypeEnum(Integer type) {
         this.type = type;
     }
 
@@ -15,8 +15,8 @@ public enum CommentTypeEnum {
     }
 
     public static boolean isExist(Integer type) {
-        for (CommentTypeEnum commentTypeEnum : CommentTypeEnum.values()) {
-            if (commentTypeEnum.getType().equals(type)) {
+        for (TypeEnum typeEnum : TypeEnum.values()) {
+            if (typeEnum.getType().equals(type)) {
                 return true;
             }
         }

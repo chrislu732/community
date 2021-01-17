@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="hot_topics">
+    <h3>Hot Topics</h3>
+    <ul class="topic-list">
+        <li th:each="hotTopic : ${session.hotTopics}">
+            <a th:href="@{'/topic/'+ ${hotTopic.topicId}}" th:text="${hotTopic.title}"></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

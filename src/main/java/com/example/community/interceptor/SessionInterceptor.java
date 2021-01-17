@@ -1,5 +1,7 @@
 package com.example.community.interceptor;
 
+import com.example.community.cache.HotTopicCache;
+import com.example.community.dto.TopicTitleDTO;
 import com.example.community.mapper.UserMapper;
 import com.example.community.model.User;
 import com.example.community.service.NotificationService;
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 // an interceptor
 @Service
@@ -19,9 +22,14 @@ public class SessionInterceptor implements HandlerInterceptor {
     UserMapper userMapper;
     @Autowired
     NotificationService notificationService;
+    @Autowired
+    HotTopicCache hotTopicCache;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // put hot topics in the session
+        List<TopicTitleDTO> hotTopics = hotTopicCache.getHotTopics();
+        request.getSession().setAttribute("hotTopics", hotTopics);
         // check if there's a cookie for user token
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {

@@ -2,7 +2,9 @@ package com.example.community.enums;
 
 public enum NotificationTypeEnum {
     REPLY_TOPIC(1, "reply your topic"),
-    REPLY_COMMENT(2, "reply your comment");
+    REPLY_COMMENT(2, "reply your comment"),
+    LIKE_TOPIC(3, "like your topic"),
+    LIKE_COMMENT(4, "like your comment");
 
     private Integer type;
     private String name;

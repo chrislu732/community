@@ -5,6 +5,6 @@ import lombok.Data;
 //like information from the client
 @Data
 public class LikeCreateDTO {
-    private Long liked;
+    private Long parentId;
     private Integer type;
 }
