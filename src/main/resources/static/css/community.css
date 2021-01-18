@@ -78,6 +78,7 @@ body {
 .sign-in .btn-confirm {
     float: left;
     margin-bottom: 15px;
+    margin-right: 15px;
 }
 
 .sign-in .github {

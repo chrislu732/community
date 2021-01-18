@@ -38,9 +38,9 @@ public class LikeService {
 
     @Transactional
     public ResultDTO insertLike(Like like ,User user) {
-        List<Like> hasLike = likeMapper.findByEverything(like);
+        Like existLike = likeMapper.findByEverything(like);
         // the same user cannot like the same topic/comment more than once
-        if (hasLike != null && hasLike.size() > 0) {
+        if (existLike != null) {
             return ResultDTO.errorOf(CustomizeErrorCode.LIKE_MORE_THAN_ONCE);
         }
         // check other properties

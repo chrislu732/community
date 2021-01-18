@@ -15,5 +15,5 @@ public interface LikeMapper {
     void create(Like like);
 
     @Select("select * from like_list where user_id = #{userId} and parent_id = #{parentId} and type = #{type}")
-    List<Like> findByEverything(Like like);
+    Like findByEverything(Like like);
 }

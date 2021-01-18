@@ -1,5 +1,6 @@
 package com.example.community.controller;
 
+import com.example.community.exception.WarningMessage;
 import com.example.community.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +25,23 @@ public class SignInController {
     }
 
     @PostMapping("/sign_in")
-    public String doPublish(@RequestParam("user_name") String userName,
+    public String doPublish(@RequestParam(value = "user_name", required = false) String userName,
+                            @RequestParam(value = "user_pw", required = false) String password,
                             HttpServletResponse response,
                             HttpServletRequest request,
                             Model model) {
         // keep template information
         model.addAttribute("userName", userName);
 
-        // if there's no user name, submission fails
-        if (StringUtils.isBlank(userName)) {
-            model.addAttribute("error", "no user name");
-            return "sign_in";
+        // verify the user name and password
+        WarningMessage warningMessage = userService.verifyUser(userName, password);
+        if (warningMessage != null) {
+            model.addAttribute("error", warningMessage.getMessage());
+            return "/sign_in";
         }
 
         // get or create token
-        String token = userService.createOrVerifyUser(userName);
+        String token = userService.getUserToken(userName);
         // add a "token" cookie
         response.addCookie(new Cookie("token", token));
 

@@ -1,6 +1,7 @@
 package com.example.community.controller;
 
 import com.example.community.dto.TopicDTO;
+import com.example.community.exception.WarningMessage;
 import com.example.community.helper.TagHelper;
 import com.example.community.model.User;
 import com.example.community.service.TopicService;
@@ -61,24 +62,24 @@ public class PublishController {
 
         // if there's no title name, submission fails
         if (StringUtils.isBlank(title)) {
-            model.addAttribute("error", "no title name");
+            model.addAttribute("error", WarningMessage.NO_TITLE.getMessage());
             return "publish";
         }
         // if there's no description, submission fails
         if (StringUtils.isBlank(description)) {
-            model.addAttribute("error", "no description");
+            model.addAttribute("error", WarningMessage.NO_DESCRIPTION.getMessage());
             return "publish";
         }
         // if there's no tag, submission fails
         if (StringUtils.isBlank(tag)) {
-            model.addAttribute("error", "no tag");
+            model.addAttribute("error", WarningMessage.NO_TAG.getMessage());
             return "publish";
         }
         // get user information from the session
         User user = (User) request.getSession().getAttribute("user");
         // if there's no user, submission fails
         if (user == null) {
-            model.addAttribute("error", "user doesn't log in");
+            model.addAttribute("error", WarningMessage.GUEST.getMessage());
             return "publish";
         }
         // add topic information into the database
