@@ -34,7 +34,7 @@ public class SignInController {
         model.addAttribute("userName", userName);
 
         // verify the user name and password
-        WarningMessage warningMessage = userService.verifyUser(userName, password);
+        WarningMessage warningMessage = userService.userVerify(userName, password);
         if (warningMessage != null) {
             model.addAttribute("error", warningMessage.getMessage());
             return "/sign_in";

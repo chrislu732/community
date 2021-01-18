@@ -67,8 +67,8 @@ body {
 .sign-in {
     background-color: white;
     margin-top: 200px;
-    margin-left: 300px;
-    margin-right: 300px;
+    margin-left: 400px;
+    margin-right: 400px;
 }
 
 .sign-in .text {
@@ -84,6 +84,17 @@ body {
 .sign-in .github {
     margin-left: 130px;
     margin-top: 100px;
+}
+
+.sign-up {
+    background-color: white;
+    margin-top: 200px;
+    margin-left: 400px;
+    margin-right: 400px;
+}
+
+.sign-up .text {
+    width: 500px;
 }
 
 .publish .tag-display {
@@ -157,4 +168,8 @@ body {
     line-height: 20px;
     font-size: 15px;
     list-style: none;
+}
+
+.btn-sign-up {
+    margin-left: 150px;
 }
