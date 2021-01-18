@@ -29,11 +29,18 @@
                             <a th:href="@{'/topic/' + ${topic.id}}" th:text="${topic.title}"></a>
                         </h4>
                         <span class="text-desc">
+                            Author:
+                            <span th:text="${topic.user.name}"></span>
+                        </span>
+                        <br>
+                        <span class="text-desc">
                             <span th:text="${topic.commentCount}">
                             </span> comments &#xb7; <span th:text="${topic.viewCount}">
                             </span> views &#xb7; <span th:text="${topic.likeCount}">
                             </span> likes &#xb7; <span th:text="${#dates.format(topic.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
                         </span>
+                        <br>
+                        <span class="label label-info tags" th:text="${tag}" th:each="tag : ${topic.tag.split(',')}"></span>
                     </div>
                 </div>
                 <!--page navigation-->

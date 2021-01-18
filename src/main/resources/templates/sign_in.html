@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>publish</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="/css/community.css" />
+    <title>sign in</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
     <script src="/js/jquery-3.5.1.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
@@ -14,30 +14,36 @@
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid sign-in">
     <div class="row">
-        <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  Sign in / Register</h2>
-            <hr>
-            <form action="/sign_in" method="post">
-                <div class="form-group" th:if="${error != null}">
-                    <span class="alert alert-danger" th:text="${error}"></span>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="user_name">User Name</label>
-                    <input type="text" class="form-control text" th:value="${userName}" id="user_name" name="user_name">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="user_pw">Password</label>
-                    <input type="password" class="form-control text" id="user_pw" name="user_pw">
-                </div>
-                <button type="submit" class="btn btn-success btn-confirm">Sign in</button>
-                <a class="btn-sign-up" href="/sign_up">Sign Up</a>
-            </form>
-        </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <a class="btn btn-info btn-lg github"
-               href="https://github.com/login/oauth/authorize?client_id=6e10831c634ff4d2aed9&redirect_url=http://localhost:8686/callback&scope=user&state=1">GitHub User</a>
+        <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in / Register</h2>
+        <hr>
+        <div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 normal-block">
+                <!--normal user sign in or sign up-->
+                <form action="/sign_in" method="post">
+                    <div class="form-group" th:if="${error != null}">
+                        <span class="alert alert-danger" th:text="${error}"></span>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="user_name">User Name</label>
+                        <input type="text" class="form-control text" th:value="${userName}" id="user_name"
+                               name="user_name">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="user_pw">Password</label>
+                        <input type="password" class="form-control text" id="user_pw" name="user_pw">
+                    </div>
+                    <button type="submit" class="btn btn-success btn-confirm">Sign in</button>
+                    <a class="btn-sign-up" href="/sign_up">Sign Up</a>
+                </form>
+            </div>
+            <!--github user sign in-->
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 github-block">
+                <a class="btn btn-info btn-lg github"
+                   href="https://github.com/login/oauth/authorize?client_id=6e10831c634ff4d2aed9&redirect_url=http://localhost:8686/callback&scope=user&state=1">GitHub
+                    User</a>
+            </div>
         </div>
     </div>
 </div>
