@@ -1,10 +1,5 @@
-# community
-a discussion website demo
+# Stranger
 
-## Documents
-[Spring Documents](https://spring.io/guides/)  
-[Spring Web](https://spring.io/guides/gs/serving-web-content/)  
-[es](https://elasticsearch.cn/explore)  
-[Github deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys)  
-[Bootstrap](https://v3.bootcss.com.getting-started/)  
-[Github OAuth Documents](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)  
+## Introduction
+
+**Stranger** is a web app demo of a community forum. It is developed based on **Spring Boot** and includes the basic functions of a community, including registration, login, posting, comments, likes, hot topics updated in real time, and message reminders.

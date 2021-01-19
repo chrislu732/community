@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
     <div th:fragment="nav">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
+        <nav class="navbar navbar-default" style="border-width: 0">
+            <div class="container-fluid nav-body">
                 <!--title-->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -33,9 +33,9 @@
                                 Sign In
                             </a>
                         </li>
-                        <li th:unless="${session.user == null}">
+                        <!--<li th:unless="${session.user == null}">
                             <a href="/profile/comments">Notification <span class="badge" th:text="${session.unreadCount}"></span></a>
-                        </li>
+                        </li>-->
                         <!--personal items-->
                         <li class="dropdown" th:unless="${session.user == null}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -44,7 +44,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="/profile/topics">My Topics</a></li>
-                                <li><a href="/profile/comments">My Comments</a></li>
+                                <li><a href="/profile/comments">Notification <span class="badge" th:text="${session.unreadCount}"></span></a></li>
                                 <li><a href="/profile/sign_out">Sign Out</a></li>
                             </ul>
                         </li>

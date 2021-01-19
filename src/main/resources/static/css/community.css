@@ -1,5 +1,5 @@
 body {
-    background-color: skyblue;
+    background-image: url("/images/backgrounds/bg4.png");
 }
 
 .main {
@@ -7,7 +7,11 @@ body {
     margin: 30px;
 }
 
-.nav-search {
+.nav-body {
+    background-color: lightblue;
+}
+
+.nav-body .nav-search {
     width: 500px;
 }
 
@@ -127,6 +131,10 @@ body {
 
 .publish .tag-tab:hover {
     background-color: #339dff;
+}
+
+.footer-body {
+    color: black;
 }
 
 .error {
