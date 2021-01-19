@@ -12,8 +12,8 @@ English / [中文](README_ZH.md)
 
 This application implements a basic user management system. Users can register and log in through the username and password or **github**. It uses the token-based authentication to maintain the user's login status.
 
-<img src="snapshot/snapshot8.png" width="48%">
-<img src="snapshot/snapshot1.png" width="48%">
+<img src="snapshot/snapshot8.png" width="40%">
+<img src="snapshot/snapshot1.png" width="40%">
 
 #### Post Topic
 
