@@ -27,13 +27,13 @@ public interface TopicMapper {
     @Select("select * from topic where id = #{id}")
     Topic findByID(@Param("id") Long id);
 
-    @Select("select id from topic order by gmt_create desc limit #{offset}, #{size}")
+    @Select("select id from topic order by view_count desc, id limit #{offset}, #{size}")
     List<Long> list(@Param("offset") Integer offset, @Param("size") Integer size);
 
-    @Select("select id from topic where author = #{author} order by gmt_create desc limit #{offset}, #{size}")
+    @Select("select id from topic where author = #{author} order by view_count desc, id limit #{offset}, #{size}")
     List<Long> listByAuthor(@Param("author") Long author, @Param("offset") Integer offset, @Param("size") Integer size);
 
-    @Select("select id from topic where title regexp #{titles} order by gmt_create desc limit #{offset}, #{size}")
+    @Select("select id from topic where title regexp #{titles} order by view_count desc, id limit #{offset}, #{size}")
     List<Long> listBySearch(@Param("titles") String titles, @Param("offset") Integer offset, @Param("size") Integer size);
 
     @Select("select count(1) from topic")
