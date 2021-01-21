@@ -25,6 +25,7 @@ public class HotTopicTask {
 
     // calculate the topic rank per hour
     @Scheduled(fixedRate = 60 * 60 * 1000)
+    // @Scheduled(fixedRate = 5 * 1000)
     public void hotTopicSchedule() {
         log.info("hotTopicSchedule start");
         int top = 10; // the size of top topics
