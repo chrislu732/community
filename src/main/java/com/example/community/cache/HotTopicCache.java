@@ -12,5 +12,5 @@ import java.util.List;
 @Component
 @Data
 public class HotTopicCache {
-    private volatile List<TopicTitleDTO> hotTopics = new ArrayList<>();
+    private List<TopicTitleDTO> hotTopics = new ArrayList<>();
 }
