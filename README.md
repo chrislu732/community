@@ -4,7 +4,7 @@ English / [中文](README_ZH.md)
 
 ## Introduction
 
-**Stranger** is a web application developed based on **Spring Boot**. It is a demo of a community forum. The main functions include user registration and login, posting, replying, real-time updated hot topic rankings and message reminders. The database uses **h2 database** ,and **MyBatis** is used to read and write the database.
+**Stranger** is a web application developed based on **Spring Boot**. It is a demo of a community forum. The main functions include user registration and login, posting, replying, real-time updated hot topic rankings and message reminders. The database uses **Mysql** ,and **MyBatis** is used to read and write the database.
 
 ## What can the community do ?
 
@@ -42,6 +42,6 @@ Users can use the search box in the navigation bar to search for topics they wan
 
 - **Spring Boot 2.4 +**
 
-- **H2 1.4 +**
+- **Mysql 8 +**
 
 - **MyBatis 3 +**

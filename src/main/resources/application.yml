@@ -1,0 +1,34 @@
+server:
+  port: 8686
+
+github:
+  client:
+    id: 6e10831c634ff4d2aed9
+    secret: d48c4464b59866796a2f3c5194f7a3d075eed592
+  redirect:
+    url: http://localhost:8686/callback
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/community_data
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  file:
+    name: logs/community.log
+  level:
+    root: info
+#    com:
+#      example:
+#        community:
+#          mapper: debug
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+      max-history: 15
